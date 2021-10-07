@@ -1,0 +1,68 @@
+:root {
+  --breakpoint-sm: '576px';
+
+  --breakpoint-md: '768px';
+  --breakpoint-lg: '1024px';
+  
+    --color-primary: rgb(246, 119, 119);
+    --color-primary-3: rgba(246, 119, 119, .3);
+    --color-error: #FF9494;
+    --color-yellow: rgb(253, 182, 49);
+    --text-disable: rgba(0,0,0,.5);
+    --text-active: rgba(0,0,0,.9);
+    --text-secondary: rgba(255, 255, 255, 0.5);
+    --text-smoke: rgb(207, 207, 207);
+    --text-white: rgb(255, 255, 255);
+    --text-sale: rgb(220 53 69);
+    --text-yellow: rgb(248 206 11);
+}
+
+
+*{
+  font-family: 'Space Grotesk', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.Toastify__toast-container--top-center {
+  top: 20%;
+}
+
+.Toastify__toast {
+  font-size: 15px;
+  --toastify-toast-min-height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px !important;
+  align-content: center;
+  min-height: 40px;
+  min-width: 320px;
+}
+
+/* button close */
+.Toastify__close-button {
+  align-self: center !important;
+  padding-right: 10px !important;
+}
+
+@media  (max-width: 576px) {
+  /* Message */
+  .Toastify__toast-body > div:last-child {
+    font-size: 14px;
+  }
+}
+

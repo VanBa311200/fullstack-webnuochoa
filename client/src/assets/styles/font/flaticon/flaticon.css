@@ -1,0 +1,104 @@
+@font-face {
+    font-family: "flaticon";
+    src: url("./flaticon.ttf?4eed73934258d4aef5ccf608c393284c") format("truetype"),
+url("./flaticon.woff?4eed73934258d4aef5ccf608c393284c") format("woff"),
+url("./flaticon.woff2?4eed73934258d4aef5ccf608c393284c") format("woff2"),
+url("./flaticon.eot?4eed73934258d4aef5ccf608c393284c#iefix") format("embedded-opentype"),
+url("./flaticon.svg?4eed73934258d4aef5ccf608c393284c#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flaticon-washing-machine:before {
+    content: "\f101";
+}
+.flaticon-baby-boy:before {
+    content: "\f102";
+}
+.flaticon-towels:before {
+    content: "\f103";
+}
+.flaticon-plans:before {
+    content: "\f104";
+}
+.flaticon-bed:before {
+    content: "\f105";
+}
+.flaticon-followers:before {
+    content: "\f106";
+}
+.flaticon-twitter:before {
+    content: "\f107";
+}
+.flaticon-facebook:before {
+    content: "\f108";
+}
+.flaticon-youtube:before {
+    content: "\f109";
+}
+.flaticon-instagram:before {
+    content: "\f10a";
+}
+.flaticon-shopping-cart:before {
+    content: "\f10b";
+}
+.flaticon-loupe:before {
+    content: "\f10c";
+}
+.flaticon-heart:before {
+    content: "\f10d";
+}
+.flaticon-shipped:before {
+    content: "\f10e";
+}
+.flaticon-package:before {
+    content: "\f10f";
+}
+.flaticon-delivery-truck:before {
+    content: "\f110";
+}
+.flaticon-shield:before {
+    content: "\f111";
+}
+.flaticon-return:before {
+    content: "\f112";
+}
+.flaticon-exchange:before {
+    content: "\f113";
+}
+.flaticon-eye:before {
+    content: "\f114";
+}
+.flaticon-invisible:before {
+    content: "\f115";
+}
+.flaticon-like:before {
+    content: "\f116";
+}
+.flaticon-view-details:before {
+    content: "\f117";
+}
+.flaticon-analytics:before {
+    content: "\f118";
+}
+.flaticon-file:before {
+    content: "\f119";
+}
+.flaticon-store-new-badges:before {
+    content: "\f11a";
+}
+.flaticon-user:before {
+    content: "\f11b";
+}
+.flaticon-profile-user:before {
+    content: "\f11c";
+}

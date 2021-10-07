@@ -1,0 +1,95 @@
+GET http://localhost:5000/api/auth
+
+###
+
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "nampro123p12@gmail.com",
+    "password": "Tk0968246516",
+    "replacePassword": "Tk0968246516",
+    "lastname": "nam",
+    "firstname": "nguyen"
+}
+
+###
+
+POST http://localhost:5000/api/auth/checkUserExist
+Content-Type: application/json
+
+{
+  "email": "nampro123p12@gmail.com",
+    "password": "Tk0968246516",
+    
+}
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "nampro123p12@gmail.com",
+  "password" : "Tk0968246516"
+}
+
+###
+# Create brand
+POST http://localhost:5000/api/brand
+Content-Type: application/json
+
+{
+  "name": "test"
+}
+
+###
+# GET all brand
+GET http://localhost:5000/api/brand
+
+###
+# Update brand
+PUT http://localhost:5000/api/brand/612c59114794374f5056fc42
+Content-Type: application/json
+
+{
+  "name": "Afvecd"
+}
+
+###
+# Delete brand
+DELETE  http://localhost:5000/api/brand/612b31d0a70d474b1c8167e5
+
+###
+# Create product
+POST http://localhost:5000/api/product
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTJiMDQyOWU5N2IyMDBhZTQxMjBiOWEiLCJpYXQiOjE2MzE4NTgwMDV9.BEn3lD5lr2m7WG-VHTNuvKZwqgkw2mFFCoO8q13fqJo
+
+{
+  "brand" : "612b13fe28a03d2a882f056e",
+  "name" : "[New Arrival 2021] Jean Paul Gaultier La Belle Le Parfum EDP",
+  "images" : [
+    {
+    "name": "p1",
+    "image": "assets/images/products/La-Belle-100ml_600x.jpg"
+    },
+    {
+    "name": "p1",
+    "image": "assets/images/products/La-Belle-100ml_600x.1.jpg"
+    }
+  ],
+  "description" : "Thiết kế màu xanh như hồ nước lấp loáng xanh mát, là nơi làm dịu mọi cơn khát và sự nóng bức. Khoác lên mình một chiếc áo kiêu xa lấp lánh bởi các tia nắng mặt trời chiếu rọi.",
+  "price" : 2650000,
+  "price_sale" : 2305500,
+  "percent_sale" : 13,
+  "rating_number" : 4
+}
+
+###
+# GET all product
+GET http://localhost:5000/api/product
+
+
+###
+# GET product by id
+GET http://localhost:5000/api/product/612c71e9f2823a481c4da91b
