@@ -2,11 +2,12 @@ import axios from 'axios'
 
 import { apiUrl } from '../context/contanst'
 
-export const toVND = (float) => {
+export const toVND = (int) => {
   return (
-    float.toLocaleString('it-IT', {
+    int.toLocaleString('vi-VN', {
       style: 'currency',
-      currency: 'VND'
+      currency: 'VND',
+      minimumFractionDigits: 0
     })
   )
 }
@@ -33,26 +34,20 @@ export const checkEmailExist = async (email) => {
   if (email) {
     try {
       const res = await axios.post(`${apiUrl}/api/auth/checkUserExist`, { email })
-      if (res.data.success) {
-        // console.log(res.data.success)
-        return false
-      } else {
-        // console.log(res.data.success)
-        return true
-      }
+      return !res.data.success
     } catch (error) {
       return false
     }
   }
 }
 
-export const setLocalLocalStorage = (key, value) => {
+export const setLocalStorage = (key, value) => {
   localStorage.setItem(key, JSON.stringify(value))
 }
-export const getLocalLocalStorage = (key) => {
-  return localStorage.getItem(key)
+export const getLocalStorage = (key) => {
+  return JSON.parse(localStorage.getItem(key))
 }
 
 export const removeLocalStorage = (key) => {
-  return localStorage.removeItem(key)
+  return (localStorage.removeItem(key))
 }

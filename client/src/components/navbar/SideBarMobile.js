@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { FaSearch, FaPhoneSquareAlt, FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { AiFillYoutube } from 'react-icons/ai'
 import { CSSTransition } from 'react-transition-group'
+import { useSelector } from 'react-redux'
 
+import { selectAuth } from '../../store/auth/authSlice'
 import { NavbarContext } from '../../context/NavbarContext'
 import '../../assets/styles/Csstransition/styles.css'
 import HearIcon from './HearIcon'
@@ -13,6 +15,7 @@ import style from '../../assets/styles/Css/Styles.module.css'
 import { SideBarM, HeadSidebar, ImgProfile, DFCenter, LinkAction, NavbarRight, FormSearch, FormInput, ButtonSearch, BodySideBarMobile, SideBarNav, FooterSBMobile, FooterSocial, FooterPhone, ListSocial, ListItem, ItemNav, LinkCustom, Overlay } from '../../assets/styles/ElNavbar'
 const SideBarMobile = ({ show }) => {
   const nodeRef = React.useRef(null)
+  const { user } = useSelector(selectAuth)
   const { showSidebarMobile, setShowSidebarMobile } = useContext(NavbarContext);
 
   const handleOnlick = () => {
@@ -32,15 +35,19 @@ const SideBarMobile = ({ show }) => {
         <Fragment>
           <Overlay onClick={handleOnlick} />
           <SideBarM ref={nodeRef}>
-            <HeadSidebar>
+            <HeadSidebar onClick={handleOnlick}>
               <DFCenter>
                 <Link to='/account' >
                   <ImgProfile src="/assets/images/img-profile.png" alt='Image_Profile' width='50px' height='50px' />
                 </Link>
               </DFCenter>
               <DFCenter>
-                <LinkAction to='/register' as={Link} >Register</LinkAction >
-                <LinkAction to='/login' as={Link} >Login</LinkAction >
+                {user ? <LinkAction to='/user' as={Link} >{user.fullname}</LinkAction >
+                  : <>
+                    <LinkAction to='/register' as={Link} >Register</LinkAction >
+                    <LinkAction to='/login' as={Link} >Login</LinkAction >
+                  </>
+                }
               </DFCenter>
               <NavbarRight style={{ padding: '0 15px' }}>
                 <FormSearch width='180px'>
@@ -57,7 +64,7 @@ const SideBarMobile = ({ show }) => {
             </HeadSidebar>
             <BodySideBarMobile>
               <SideBarNav>
-                <ListItem>
+                <ListItem onClick={handleOnlick}>
                   <ItemNav delay='0.3s'>
                     <LinkCustom to='/'>Home</LinkCustom>
                   </ItemNav >

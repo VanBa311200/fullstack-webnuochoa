@@ -74,6 +74,7 @@ export const HeadRight = styled.div`
   list-style: none;
   display: flex;
   justify-content: flex-end;
+  position: relative;
   `
 
 export const HeadLeft = styled.div`
@@ -107,6 +108,7 @@ export const LinkContact = styled.a`
   font-size: 15px;
   align-items: center;
   cursor: pointer;
+  user-select: none;
 
   &:hover {
     color: var(--color-primary);
@@ -321,7 +323,7 @@ export const SideBarM = styled.div`
   background-color: rgb(8, 18, 41);
   height: 100vh;
   width: 295px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 2;

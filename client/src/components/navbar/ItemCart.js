@@ -1,22 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux';
+import { updateItemCart, removeItemCart } from '../../store/cart/cartSlice';
 
 import { toVND } from '../../helper';
-import { CartContext } from '../../context/CartContext';
 import InputQuality from '../InputQuality';
-import { CartItem, CartImage, CartInfo, CartInfoName, CartInfoSize, CartInfoPrice, CartAction, ButtonDeleteCart } from '../../assets/styles/ElNavbar'
 import { apiUrl } from '../../context/contanst';
+import { CartItem, CartImage, CartInfo, CartInfoName, CartInfoSize, CartInfoPrice, CartAction, ButtonDeleteCart } from '../../assets/styles/ElNavbar'
 
 const ItemCart = ({ product, delay }) => {
+  const dispatch = useDispatch()
 
-  const { removeItemCart, updateItemCart } = useContext(CartContext)
-
-  const getValue = (value) => {
+  const handleOnClick = (value) => {
     const newP = { ...product, quality: value }
-    updateItemCart(newP)
+    dispatch(updateItemCart(newP))
   }
 
   const handleRemoveItem = () => {
-    removeItemCart(product._id, product.value)
+    dispatch(removeItemCart(product))
   }
 
   return (
@@ -27,7 +27,7 @@ const ItemCart = ({ product, delay }) => {
         <CartInfoSize>{product.value}</CartInfoSize>
         <CartInfoPrice>{toVND(product.price_sale)}</CartInfoPrice>
         <CartAction>
-          <InputQuality onClick={getValue} value={product.quality} />
+          <InputQuality onClick={handleOnClick} value={product.quality} />
           <ButtonDeleteCart onClick={handleRemoveItem}>Xóa</ButtonDeleteCart>
         </CartAction>
       </CartInfo>

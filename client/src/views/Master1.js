@@ -1,12 +1,14 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import Footer from '../components/Footer/Footer'
 import NavbarMenu from '../components/navbar/NavbarMenu'
 import PageLoadingProsecc from '../components/PageLoadingProsecc'
-import { AuthContext } from '../context/AuthContext'
+import { useSelector } from 'react-redux'
+import { selectAuth } from '../store/auth/authSlice'
 
 const Master1 = ({ children }) => {
-  const { authState: { authLoading } } = useContext(AuthContext)
+  const { authLoading } = useSelector(selectAuth)
+
 
   return (
     <>

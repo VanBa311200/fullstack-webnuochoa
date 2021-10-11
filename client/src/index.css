@@ -1,3 +1,5 @@
+@import './assets/styles/font/stylesheet.fonts.css';
+
 :root {
   --breakpoint-sm: '576px';
 
@@ -5,7 +7,7 @@
   --breakpoint-lg: '1024px';
   
     --color-primary: rgb(246, 119, 119);
-    --color-primary-3: rgba(246, 119, 119, .3);
+    --color-primary-3: rgba(245, 145, 145, 0.3);
     --color-error: #FF9494;
     --color-yellow: rgb(253, 182, 49);
     --text-disable: rgba(0,0,0,.5);
@@ -19,7 +21,7 @@
 
 
 *{
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Roboto', 'Space Grotesk' , sans-serif;
   box-sizing: border-box;
   margin: 0;
 }
@@ -35,11 +37,11 @@ a {
 
 a:hover {
   color: white;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .Toastify__toast-container--top-center {
-  top: 20%;
+  top: 10% !important;
 }
 
 .Toastify__toast {
@@ -50,7 +52,7 @@ a:hover {
   border-radius: 15px !important;
   align-content: center;
   min-height: 40px;
-  min-width: 320px;
+  max-width: 300px;
 }
 
 /* button close */

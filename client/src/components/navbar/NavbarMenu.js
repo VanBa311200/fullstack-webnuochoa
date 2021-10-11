@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import '../../assets/styles/font/flaticon/flaticon.css'
@@ -11,11 +11,29 @@ import ButtonMobile from './ButtonMobile'
 import SideBarMobile from './SideBarMobile'
 import SidebarShoppingCart from './SidebarShoppingCart'
 import ShoppingIcon from './ShoppingIcon'
-import { AuthContext } from '../../context/AuthContext'
 import { apiUrl } from '../../context/contanst'
+import { useSelector } from 'react-redux'
+import { selectAuth } from '../../store/auth/authSlice'
+import DropDown from './DropDown'
 
 const NavbarMenu = () => {
-  const { authState: { user } } = useContext(AuthContext)
+  const { user } = useSelector(selectAuth)
+  const ref = useRef(null)
+  const [isShowDropDown, setIsShowDropDown] = useState(false)
+
+  useEffect(() => {
+    const checkClickOutside = (e) => {
+      if (isShowDropDown && !ref.current?.contains(e.target)) {
+        setIsShowDropDown(false)
+      }
+    }
+
+    document.addEventListener('click', checkClickOutside)
+    return () => {
+      document.removeEventListener('click', checkClickOutside)
+    }
+
+  }, [isShowDropDown])
 
   return (
     <>
@@ -35,12 +53,15 @@ const NavbarMenu = () => {
               <Col md={6}>
                 <HeadRight>
                   {user ?
-                    <HeadItem style={{ borderRight: 'unset' }}>
-                      <LinkContact >
-                        <ImageProfile src={user.image ? `${apiUrl}/static/${user.image}` : '/assets/images/img-profile.png'} />
-                        {user.fullname}
-                      </LinkContact>
-                    </HeadItem>
+                    <>
+                      <HeadItem style={{ borderRight: 'unset' }} ref={ref} onClick={() => setIsShowDropDown(!isShowDropDown)} >
+                        <LinkContact >
+                          <ImageProfile src={user.image ? `${apiUrl}/static/${user.image}` : '/assets/images/img-profile.png'} />
+                          {user.fullname}
+                        </LinkContact>
+                      </HeadItem>
+                      <DropDown isShowDropDown={isShowDropDown} />
+                    </>
                     : <>
                       <HeadItem><LinkContact as={Link} to='/register' > Register </LinkContact></HeadItem>
                       <HeadItem><LinkContact as={Link} to='/login'  > Login </LinkContact></HeadItem>
@@ -96,3 +117,4 @@ const NavbarMenu = () => {
 }
 
 export default NavbarMenu
+

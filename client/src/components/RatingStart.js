@@ -54,7 +54,20 @@ const StarInner = styled.div`
 
 export const RatingNumber = styled.span`
   color: var(--color-primary);
-  text-decoration: underline;
   user-select: none;
   margin-left: 8px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    background-color: var(--color-primary);
+    height: 1px;
+    width: 100%;
+    display: block;
+  }
 `
+
+

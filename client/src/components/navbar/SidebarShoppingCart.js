@@ -1,23 +1,25 @@
 import React, { useRef, Fragment, useContext } from 'react'
 import { CSSTransition } from 'react-transition-group'
+import { useSelector } from 'react-redux'
+import { selectCart } from '../../store/cart/cartSlice'
 
 import ItemCart from './ItemCart'
 import { toVND } from '../../helper'
 import '../../assets/styles/Csstransition/styles.css'
 import { NavbarContext } from '../../context/NavbarContext'
-import { CartContext } from '../../context/CartContext'
 import { ContainerSlider, HeadCart, HeroCart, CloseCart, IconClose, ContainerCart, BodyCart, CartFooter, CartFooterWapper, CartTaxes, ButtonPrimary, Overlay, PointCenter, TotalPrice, EmptyCart, CartList } from '../../assets/styles/ElNavbar'
 
 
 const SidebarShoppingCart = () => {
   const nodeRef = useRef(null)
+  const cartItems = useSelector(selectCart)
   const { showShoppingCart, setShowShoppingCart } = useContext(NavbarContext)
-  const { item: { product } } = useContext(CartContext)
+
 
   let total = 0;
 
-  if (product.length) {
-    total = toVND(product.reduce((prev, curr) => prev + curr.price_sale * curr.quality, 0))
+  if (cartItems.length) {
+    total = toVND(cartItems.reduce((prev, curr) => prev + curr.price_sale * curr.quality, 0))
   }
 
   return (
@@ -39,12 +41,12 @@ const SidebarShoppingCart = () => {
               </CloseCart>
             </HeadCart>
             <ContainerCart>
-              {product.length ?
+              {cartItems.length ?
                 <>
                   <BodyCart>
                     <CartList>
                       {
-                        product.map((p, index) =>
+                        cartItems.map((p, index) =>
                           <ItemCart delay={`0.${index + 3}s`} key={index} product={p} />
                         )
                       }

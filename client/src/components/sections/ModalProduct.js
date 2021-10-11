@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,20 +8,21 @@ import { GiShoppingCart } from 'react-icons/gi'
 
 import { toVND } from '../../helper';
 import InputQuality from '../InputQuality';
-import { CartContext } from '../../context/CartContext';
 import { TagSalePercent } from './ElNewProducts'
 import RatingStart from '../RatingStart';
 import { apiUrl } from '../../context/contanst';
+import { useDispatch } from 'react-redux'
+import { addItemCart } from '../../store/cart/cartSlice';
 
 
 const ModalProduct = ({ isShow, data, onCloseModal }) => {
-  const [size, setSize] = useState({
+  const dispatch = useDispatch()
+  const initialState = {
     index: 1,
     value: '30ml',
     quality: 1
-  });
-
-  const { addItemCart } = useContext(CartContext)
+  }
+  const [size, setSize] = useState(initialState);
 
   const valueInput = (quality) => {
     setSize({
@@ -32,12 +33,8 @@ const ModalProduct = ({ isShow, data, onCloseModal }) => {
 
   const handleAddItemCart = () => {
     const product = { ...data, ...size }
-    addItemCart(product);
-    setSize({
-      index: 1,
-      value: '30ml',
-      quality: 1
-    })
+    dispatch(addItemCart(product))
+    setSize(initialState)
     onCloseModal(false)
   }
 

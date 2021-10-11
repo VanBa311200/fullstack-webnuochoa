@@ -1,14 +1,16 @@
 import React from 'react'
 import * as yup from 'yup'
 import { Formik } from 'formik'
-import axios from 'axios'
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
 
-import { apiUrl } from '../../context/contanst'
+import { userRegister } from '../../store/auth/authSlice'
 import { ButtonAction, Container, Form, FormGroup, TitleForm, ErrorMessage, LinkOption, OptionSign, WrappInput } from './El'
 import { checkEmailExist } from '../../helper'
 
 const RegisterForm = () => {
+  const dispatch = useDispatch()
+
   const schema = yup.object().shape({
     firstName: yup.string()
       .min(2, 'Tên không hợp lệ')
@@ -46,25 +48,18 @@ const RegisterForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={schema}
-      onSubmit={async (data, actions) => {
-        // try {
-        //   const res = await axios.post(`${apiUrl}/api/auth/register`, data)
-
-        //   if (res.data.success) {
-
-        //   }
-        // } catch (error) {
-        //   console.log(error)
-        // }
+      onSubmit={(data, actions) => {
         const resolveWithSomeData = new Promise(async (resolve, reject) => {
-          const c = await axios.post(`${apiUrl}/api/auth/register`, data)
-          if (c.data.success) {
-            resolve(c.data.message)
-            actions.resetForm({ values: initialValues })
-          }
-          else {
-            reject(c.data.message)
-          }
+          dispatch(userRegister(data))
+            .unwrap()
+            .then((result) => {
+              actions.resetForm({ values: initialValues })
+              resolve(result.message)
+            })
+            .catch((result) => {
+              actions.resetForm({ ...data, comfirmPassword: '', password: '' })
+              reject(result.message)
+            })
         });
         toast.promise(resolveWithSomeData, {
           pending: 'Loading...!',

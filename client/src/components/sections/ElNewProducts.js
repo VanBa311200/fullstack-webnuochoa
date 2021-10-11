@@ -2,7 +2,6 @@ import styled, { keyframes } from 'styled-components'
 
 import { Container, Col } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import '../../assets/styles/Css/_Variable.css'
 
 const FadeInBottom = keyframes`
   from {

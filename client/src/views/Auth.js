@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
+import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import LoginForm from '../components/auth/LoginForm'
 import RegisterForm from '../components/auth/RegisterForm'
-import { AuthContext } from '../context/AuthContext'
-
+import { selectAuth } from '../store/auth/authSlice'
 
 const Auth = ({ redirect }) => {
-  const { authState: { isAuthenticated } } = useContext(AuthContext)
+  const { isAuthenticated } = useSelector(selectAuth)
 
   if (isAuthenticated) {
     return <Redirect to='/' />

@@ -39,3 +39,25 @@
   transition: all .45s ease-out;
 }
 
+/* DropDown Header Profile */
+
+.dropDown-enter {
+  opacity: 0;
+  transform: translateY(-5%);
+}
+
+.dropDown-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all .35s ease-out;
+}
+
+.dropDown-exit {
+  opacity: 1;
+}
+
+.dropDown-exit-active {
+  opacity: 0;
+  transform: translateY(-5%);
+  transition: all .35s ease-out;
+}

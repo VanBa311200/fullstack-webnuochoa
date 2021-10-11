@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { useState } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
-import { AuthContext } from '../../context/AuthContext'
+import { useDispatch } from 'react-redux'
+import { userLogin, setAuth } from '../../store/auth/authSlice'
 
 import { ButtonAction, Container, Form, FormGroup, IconEye, TitleForm, ErrorMessage, OptionForgot, LinkOption, OptionSign, WrappInput } from './El'
 import { useHistory } from 'react-router'
@@ -12,11 +12,12 @@ import { useHistory } from 'react-router'
 
 const LoginForm = () => {
   const history = useHistory()
+  const dispatch = useDispatch()
   const [isHide, setIsHide] = useState(true)
-  const { loginUser } = useContext(AuthContext)
+  // const { loginUser } = useContext(AuthContext)
   const initialValues = {
-    email: '',
-    password: ''
+    email: 'vanba311200@gmail.com',
+    password: 'Tk0968246516'
   }
 
   const schema = yup.object().shape({
@@ -36,16 +37,17 @@ const LoginForm = () => {
     validationSchema: schema,
     onSubmit: (data, actions) => {
       const valuePromise = new Promise(async (resolve, reject) => {
-        loginUser(data)
-          .then(res => {
-            if (res.success) {
-              actions.resetForm({ values: initialValues })
-              resolve(res.message)
-              history.push('/')
-            } else {
-              actions.resetForm({ values: { ...data, password: '' } })
-              reject(res.message)
-            }
+        await dispatch(userLogin(data))
+          .unwrap()
+          .then((resolved) => {
+            actions.resetForm({ values: initialValues })
+            resolve(resolved.message)
+            history.push('/')
+            dispatch(setAuth())
+          })
+          .catch((rejected) => {
+            actions.resetForm({ values: { ...data, password: '' } })
+            reject(rejected.message)
           })
       })
       toast.promise(valuePromise, {
@@ -63,6 +65,7 @@ const LoginForm = () => {
       })
     }
   })
+
 
   return (
     <Container>
@@ -116,7 +119,7 @@ const LoginForm = () => {
         </OptionSign>
       </Form>
 
-    </Container>
+    </Container >
   )
 }
 
