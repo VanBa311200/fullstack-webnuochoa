@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Form, Button, Row, Col, Image } from 'react-bootstrap'
+import React from 'react'
+import { Container, Form, Button } from 'react-bootstrap'
 import { apiUrl } from '../../context/contanst'
 import axios from 'axios'
 import * as yup from 'yup'
@@ -8,7 +8,7 @@ import { useFormik } from 'formik'
 import { checkTypeImage } from '../../helper/index'
 
 const UploadFile = () => {
-  const [files, setFiles] = useState()
+  // const [files, setFiles] = useState()
 
   const schema = yup.object().shape({
     name: yup.string()
@@ -147,7 +147,7 @@ const UploadFile = () => {
           Submit
         </Button>
       </Form>
-      <Row>
+      {/* <Row>
         {
           files && files.map((img, index) => (
             <Col xs={6} md={4} key={index}>
@@ -155,7 +155,7 @@ const UploadFile = () => {
             </Col>
           ))
         }
-      </Row>
+      </Row> */}
 
     </Container>
   )
