@@ -1,39 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import "animate.css"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 import App from './App';
 import { Provider } from 'react-redux'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import store from './store/index'
-
-let theme;
-
-theme = createTheme({
-  palette: {
-    primary: {
-      main: '#f67777',
-      contrastText: '#fff'
-    },
-    secondary: {
-      main: 'rgba(250, 181, 181, 0.3)',
-      contrastText: '#000',
-    },
-
-  },
-  typography: {
-    fontFamily: 'Roboto',
-    color: '#2222',
-    subtitle1: {
-      fontSize: '14px',
-      color: '#757575',
-    },
-    subtitle2: {
-      fontSize: '14px',
-      color: 'rgba(0,0,0,.4)',
-    },
-
-  }
-})
+import { theme } from './theme'
 
 ReactDOM.render(
   <React.StrictMode>

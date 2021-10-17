@@ -12,13 +12,10 @@ const User = require('../models/User')
 // @access Public
 router.get('/', verifyToken, async (req, res) => {
   try {
-    console.log(`[verifyToken]->User:`, req.userId)
     const user = await User.findById(req.userId).select('-password')
     if (!user) {
-      console.log(`[verifyToken]->User: User not found`)
       return res.status(404).json({ success: false, message: 'User not found' })
     }
-    console.log(`[verifyToken]->User: ${user}`)
     res.status(200).json({ success: true, message: 'Success', user })
   } catch (error) {
     console.log(error)

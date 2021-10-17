@@ -14,7 +14,7 @@ const UploadFile = () => {
     name: yup.string()
       .required('Field is required')
       .min(2, 'More than 1'),
-    file: yup
+    imageDesktop: yup
       .mixed()
       .required('Field is required')
       .test('fileType', 'File unsuppport format',
@@ -22,20 +22,34 @@ const UploadFile = () => {
           if (typeof value === 'undefined') {
             return false
           }
-          checkTypeImage(value.type)
-        })
+          return checkTypeImage(value.type)
+        }),
+    imageMobile: yup
+      .mixed()
+      .required('Field is required')
+      .test('fileType', 'File unsuppport format',
+        (value) => {
+          if (typeof value === 'undefined') {
+            return false
+          }
+          return checkTypeImage(value.type)
+        }),
   })
 
+  const initialValues = {
+    name: '',
+    imageDesktop: '',
+    imageMobile: '',
+  }
+
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      file: ''
-    },
+    initialValues,
     validationSchema: schema,
     onSubmit: values => {
       let data = new FormData()
-      data.append('myfile', values.file)
       data.append('name', values.name)
+      data.append('imageDesktop', values.imageDesktop)
+      data.append('imageMobile', values.imageMobile)
       onSubmit(data)
     }
   })
@@ -50,23 +64,23 @@ const UploadFile = () => {
         console.log(res.data.message)
       } else {
         console.log(res.data.message)
-        formik.resetForm({ values: { name: '', file: '' } })
+        formik.resetForm({ values: initialValues })
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  useEffect(() => {
-    const getBanner = async () => {
-      const res = await axios.get(`${apiUrl}/api/banner`)
-      if (res.data.success) {
-        setFiles(Object.values(res.data.data))
-      }
-    }
+  // useEffect(() => {
+  //   const getBanner = async () => {
+  //     const res = await axios.get(`${apiUrl}/api/banner`)
+  //     if (res.data.success) {
+  //       setFiles(Object.values(res.data.data))
+  //     }
+  //   }
 
-    getBanner()
-  }, [])
+  //   getBanner()
+  // }, [])
 
   const err = {
     color: 'red',
@@ -98,18 +112,34 @@ const UploadFile = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicFile">
-          <Form.Label>File</Form.Label>
+          <Form.Label>imageDesktop</Form.Label>
           <Form.Control
             type="file"
-            name='file'
+            name='imageDesktop'
             onChange={e => {
-              formik.setFieldValue('file', e.target.files[0]);
+              formik.setFieldValue('imageDesktop', e.target.files[0]);
             }}
           />
           {
-            formik.touched.file && formik.errors.file ?
+            formik.touched.imageDesktop && formik.errors.imageDesktop ?
               (<Form.Text style={err}>
-                {formik.errors.file}
+                {formik.errors.imageDesktop}
+              </Form.Text>) : null
+          }
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicFile">
+          <Form.Label>imageMobile</Form.Label>
+          <Form.Control
+            type="file"
+            name='imageMobile'
+            onChange={e => {
+              formik.setFieldValue('imageMobile', e.target.files[0]);
+            }}
+          />
+          {
+            formik.touched.imageMobile && formik.errors.imageMobile ?
+              (<Form.Text style={err}>
+                {formik.errors.imageMobile}
               </Form.Text>) : null
           }
         </Form.Group>

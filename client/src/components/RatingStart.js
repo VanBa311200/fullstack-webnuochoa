@@ -15,7 +15,6 @@ const RatingStart = ({ number }) => {
 export default RatingStart
 
 const Rating = styled.div`
-  margin-top: 4px;
 `
 
 const StarOuter = styled.div`
@@ -29,7 +28,7 @@ const StarOuter = styled.div`
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     color: var(--text-smoke);
-    font-size: 14px;
+    font-size: 13px;
   }
 `
 
@@ -48,7 +47,7 @@ const StarInner = styled.div`
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     color: var(--text-yellow);
-    font-size: 14px;
+    font-size: 13px;
   }
 `
 
@@ -57,6 +56,7 @@ export const RatingNumber = styled.span`
   user-select: none;
   margin-left: 8px;
   position: relative;
+  font-size: 14px;
 
   &::after {
     content: '';

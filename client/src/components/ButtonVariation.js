@@ -1,8 +1,7 @@
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import { Chip } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Button } from '@mui/material';
 
-export const ButtonVariation = styled(Chip)(({ theme }) => ({
+export const ButtonVariation = styled(Button)(({ theme }) => ({
   height: '30px',
   borderRadius: '2px',
   border: `1px solid rgba(0,0,0,.09)`,

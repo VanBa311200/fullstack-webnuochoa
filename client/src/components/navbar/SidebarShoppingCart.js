@@ -47,8 +47,11 @@ const SidebarShoppingCart = () => {
                     <CartList>
                       {
                         cartItems.map((p, index) =>
-                          <ItemCart delay={`0.${index + 3}s`} key={index} product={p} />
-                        )
+                          <ItemCart
+                            delay={`0.${index + 3}s`}
+                            key={index}
+                            product={p}
+                          />)
                       }
                     </CartList>
                   </BodyCart>

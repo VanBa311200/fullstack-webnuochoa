@@ -10,23 +10,30 @@ const fileSizeFormatter = require('../../helper/FormatterFile')
 // @route POST /api/banner
 // @desc Upload image banner
 // @access Private
-router.post('/', upload.single('myfile'), async (req, res) => {
+router.post('/', upload.fields([{ name: 'imageDesktop' }, { name: 'imageMobile' }]), async (req, res) => {
   const { name } = req.body
 
-  if (!req.file)
+  if (!req.files)
     return res.status(400).json({ success: false, message: 'Upload faild' })
 
-  const image = {
-    fileName: req.file.filename,
-    fileType: req.file.mimetype,
-    fileSize: fileSizeFormatter(req.file.size, 3) // 3 is 0.000
+  let imageDesktop = {
+    fileName: req.files['imageDesktop'][0].filename,
+    fileType: req.files['imageDesktop'][0].mimetype,
+    fileSize: fileSizeFormatter(req.files['imageDesktop'][0].size, 3),
   }
-  console.log(req.file)
+  let imageMobile = {
+    fileName: req.files['imageMobile'][0].filename,
+    fileType: req.files['imageMobile'][0].mimetype,
+    fileSize: fileSizeFormatter(req.files['imageMobile'][0].size, 3),
+  }
+
   try {
     const banner = new Banner({
       name,
-      image
+      imageDesktop,
+      imageMobile,
     })
+
     await banner.save()
     return res.status(200).json({ success: true, message: 'Upload successfully' })
   } catch (error) {

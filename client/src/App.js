@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, cssTransition } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import "animate.css"
 
 import uploadFile from './components/admin/uploadFile';
 import NavbarContextProvider from './context/NavbarContext';

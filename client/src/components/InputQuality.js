@@ -25,7 +25,7 @@ const InputQuality = ({ onClick, value }) => {
       <Wrap onClick={hadleOnClickMinus} sx={{ minWidth: '32px' }}>
         <IconMinus />
       </Wrap>
-      <input useref={input} type="text" autoComplete='off' value={value || input.current} onChange={(e) => input.current = e.target.value} />
+      <input type="text" autoComplete='off' value={value || input.current} onChange={(e) => input.current = e.target.value} />
       <Wrap onClick={hadleOnClickPlus} sx={{ minWidth: '32px' }}>
         <IconPlus />
       </Wrap>
@@ -36,15 +36,17 @@ const InputQuality = ({ onClick, value }) => {
 export default InputQuality
 
 
-const Container = styledMUI(Stack)({
+const Container = styledMUI(Stack)(({ theme }) => ({
+  '--w': '50px',
+  '--h': '32px',
   display: 'flex',
   alignItems: 'center',
   border: `1px solid rgba(0,0,0,.09)`,
   flexDirection: 'row',
 
   '& input': {
-    width: '50px',
-    height: '32px',
+    width: 'var(--w)',
+    height: 'var(--h)',
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'center',
@@ -54,20 +56,23 @@ const Container = styledMUI(Stack)({
     borderTop: 'none',
     borderBottom: 'none',
     outline: 'none',
-  }
+    color: `${theme.palette.grey[600]}`,
+  },
 
-})
+}))
 
 
 const Wrap = styledMUI(Button)(({ theme }) => ({
-  width: '32px',
-  height: '32px',
+  '--wh': '32px',
+  width: 'var(--wh)',
+  height: 'var(--wh)',
   cursor: 'pointer',
   outline: 'none',
   border: 'none',
   backgroundColor: 'transparent',
-  minWidth: "32px",
-  color: '1px solid rgba(0,0,0,.09)',
+  color: `1px solid ${theme.palette.grey[700]}`,
+  minWidth: '0px',
+
 }))
 
 

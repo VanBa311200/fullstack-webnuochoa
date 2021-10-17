@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Skeleton } from '@mui/material'
+import styled from "styled-components"
 
 import { apiUrl } from '../../context/contanst'
-import { Container, ImageSlide, SlideInner } from './ElCarousel'
 import Slider from 'react-slick'
 const Carousel = () => {
   const [carousel, setSlides] = useState({
@@ -38,7 +37,14 @@ const Carousel = () => {
         <Slider {...settings}>
           {
             Array.from(new Array(4)).map((e, i) =>
-              <ImageSlide key={i} src='https://via.placeholder.com/1882x723.png?text=++' />
+              <picture key={i}>
+                <source
+                  media="(max-width:576px)"
+                  srcSet='https://via.placeholder.com/545x799.png?text=Loading...'
+                />
+                <ImageSlide src='https://via.placeholder.com/1882x723.png?text=Loading...' />
+              </picture>
+
             )
           }
         </Slider>
@@ -46,7 +52,16 @@ const Carousel = () => {
           <Slider {...settings}>
 
             {carousel.slides.map((item, index) =>
-              <ImageSlide key={index} src={`${apiUrl}/static/${item.image.fileName}`} alt={item.name} />
+              <picture key={index}>
+                <source
+                  media="(max-width:576px)"
+                  srcSet={`${apiUrl}/static/${item.imageMobile.fileName}`}
+                />
+                <ImageSlide
+                  src={`${apiUrl}/static/${item.imageDesktop.fileName}`}
+                  alt={item.name}
+                />
+              </picture>
             )}
           </Slider>
         </>
@@ -58,14 +73,51 @@ const Carousel = () => {
   return (
     <Container>
       <SlideInner>
-        <Slider {...settings}>
-          {
-            body
-          }
-        </Slider>
+        {body}
       </SlideInner>
     </Container>
   )
 }
 
 export default Carousel
+
+
+
+const Container = styled.section`
+        position: relative;
+        `
+
+const ImageSlide = styled.img`
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: none;
+        outline: none;
+
+        @media (min-width: 600px) {
+          height: auto;
+        }
+
+        @media (min-width: 320px) and (max-width: 600px) {
+          height: auto;
+        }
+`
+
+const SlideInner = styled.div`
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .slick-dots {
+          position: static;
+  }
+
+        @media (min-width: 320px) and (max-width: 567px) {
+    .slick-dots li {
+          width: 10px;
+        height: 10px;
+    }
+  }
+        `

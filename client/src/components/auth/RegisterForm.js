@@ -4,8 +4,9 @@ import { Formik } from 'formik'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 
+import { ButtonApp } from '../Button'
 import { userRegister } from '../../store/auth/authSlice'
-import { ButtonAction, Container, Form, FormGroup, TitleForm, ErrorMessage, LinkOption, OptionSign, WrappInput } from './El'
+import { Container, Form, FormGroup, TitleForm, ErrorMessage, LinkOption, OptionSign, WrappInput } from './El'
 import { checkEmailExist } from '../../helper'
 
 const RegisterForm = () => {
@@ -159,7 +160,13 @@ const RegisterForm = () => {
               {formik.touched.comfirmPassword && formik.errors.comfirmPassword && <ErrorMessage>{formik.errors.comfirmPassword}</ErrorMessage>}
             </FormGroup>
 
-            <ButtonAction type='submit'>Đăng ký</ButtonAction>
+            <ButtonApp
+              variant='contained'
+              sx={{ minWidth: '100%' }}
+              type='submit'
+            >
+              Đăng ký
+            </ButtonApp>
             <OptionSign>
               <p>Bạn đã có tài khoản?</p>
               <LinkOption to='/login'>Đăng nhập</LinkOption>

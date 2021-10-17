@@ -1,17 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { Container, Row, Col } from 'react-bootstrap'
+import { styled as styledMUI } from '@mui/styles'
+import { Container, Box, Grid, Paper } from '@mui/material'
 import { FaTwitter, FaFacebookF, FaInstagram, FaYoutube, FaTelegramPlane } from 'react-icons/fa'
 
 const Footer = () => {
   return (
     <footer>
-      <FooterTop fluid>
+      <FooterTop>
         <Container>
-          <Row>
-            <Col lg={4} md={12}>
-              <Brand to="/">ShopPi</Brand>
+          <Grid container spacing={2.5}>
+            <Grid item lg={4} md={4} sm={12} xs={12}>
+              <Box sx={{ display: 'flex' }}>
+                <Brand to="/">ShopPi</Brand>
+              </Box>
               <Text style={{ paddingTop: '15px' }}>We inspire and reach millions of travelers
                 across 90 local websites</Text>
               <ListGroup>
@@ -20,26 +23,26 @@ const Footer = () => {
                 <li><Link to="/"><FaInstagram /></Link></li>
                 <li><Link to="/"><FaYoutube /></Link></li>
               </ListGroup>
-            </Col>
-            <Col lg={4} md={12}>
+            </Grid>
+            <Grid item lg={4} md={4} sm={12} xs={12}>
               <Title>Contact Us</Title>
               <Text>(+84) 968246516</Text>
               <Text>Đ.Nguyễn Ảnh Thủ, P.Hiệp Thành, Q.12, TP.HCM</Text>
               <Text>vanba311200@gmail.com</Text>
-            </Col>
-            <Col lg={4} md={12}>
+            </Grid>
+            <Grid item lg={4} md={4} sm={12} xs={12}>
               <Title>NEW LATEST</Title>
               <Text>Get the latest updates and offers.</Text>
               <GroupForm>
                 <input type="email" placeholder='Email' />
                 <button><FaTelegramPlane /></button>
               </GroupForm>
-            </Col>
-          </Row>
+            </Grid>
+          </Grid>
         </Container>
       </FooterTop>
 
-      <FooterBottom fluid>
+      <FooterBottom>
         <Wrap>
           <Left>
             <li><Link to="/">Contact</Link></li>
@@ -62,28 +65,28 @@ const Footer = () => {
 export default Footer
 
 
-const FooterTop = styled(Container)`
-  padding: 65px 0 30px 0;
-  background-color: #222736;
-`
+const FooterTop = styledMUI(Paper)(({ theme }) => ({
+  padding: '65px 0 30px 0',
+  backgroundColor: '#222736',
+}))
 
-const FooterBottom = styled(FooterTop)`
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 0 16px 0;
-  background-color: #1e2331;
+const FooterBottom = styledMUI(Paper)(() => ({
+  padding: '10px',
+  backgroundColor: '#1e2331',
+  display: 'flex',
+  justifyContent: 'space-between',
+  flexWrap: 'wrap',
+}))
 
-`
 
 const Brand = styled(Link)`
   padding: 7px 35px;
   border: 3px solid var(--color-primary);
   color: #fff;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 28px;
   background-color: var(--color-primary);
   font-family: "Courgette", sans-serif;
-  margin-bottom: 10px;
 
   &:hover {
     color: white;
@@ -93,14 +96,15 @@ const Brand = styled(Link)`
 
 const Text = styled.p`
   color: var(--text-secondary);
-  font-size: 15px;
-  margin: 16px 0 16px;
+  font-size: 14px;
+  margin-bottom: 10px;
 `
 
 const Title = styled.h4`
   text-transform: uppercase;
   font-size: 18px;
   color: var(--color-primary);
+  margin-bottom: 1rem;
 `
 
 const ListGroup = styled.ul`
@@ -133,6 +137,10 @@ const ListGroup = styled.ul`
 const GroupForm = styled.div`
   position: relative;
 
+  @media (min-width: 320px) and (max-width: 768px) {
+    max-width: 270px;
+  }
+
   input {
     height: 50px;
     padding-left: 20px;
@@ -162,16 +170,18 @@ const GroupForm = styled.div`
   }
 `
 
-const Wrap = styled(Container)`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+const Wrap = styledMUI(Container)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
 
-  
-  @media (max-width: 992px) {
-    justify-content: center;
+
+  [theme.breakpoints.down('sm')]: {
+    justifyContent: 'center',
   }
-`
+
+}))
+
 
 const Left = styled.ul`
   display: flex;
@@ -186,7 +196,7 @@ const Left = styled.ul`
     color: var(--text-secondary);
   }
 
-  @media only screen and (min-width: 320px) and (max-width: 411px) {
+  @media only screen and (min-width: 320px) and (max-width: 768px) {
     gap: 12px;
 
     li a {
@@ -198,10 +208,11 @@ const Left = styled.ul`
 const Right = styled.div`
   p {
     text-align: right;
-    color: var(--text-secondary)
+    color: var(--text-secondary);
+    margin: unset;
   }
 
-  @media only screen and (min-width: 320px) and (max-width: 411px) {
+  @media only screen and (min-width: 320px) and (max-width: 768px) {
 
     p {
       font-size: 13px;

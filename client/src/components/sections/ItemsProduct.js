@@ -1,46 +1,45 @@
 import React from 'react'
-import { ProductItem, ProductImage, LinkProduct, PImg, OptionDetail, ViewOption, ProductInfo, ProductBrand, ProductName, ProductInfoGroup, ProductInfoPrice, ProductInfoPriceSale, TagSalePercent } from './ElNewProducts'
-import { AiFillHeart } from 'react-icons/ai'
-import { BsEye } from 'react-icons/bs'
-import styles from '../../assets/styles/Css/Styles.module.css'
+import { Grid, Stack } from '@mui/material'
+
+import { ProductItem, ProductImage, LinkProduct, PImg, ProductInfo, ProductBrand, ProductName, ProductInfoGroup, ProductInfoPrice, ProductInfoPriceSale } from './ElNewProducts'
 import { toVND } from '../../helper'
 import RatingStart from '../RatingStart'
 import { apiUrl } from '../../context/contanst'
+import { TagPercentSale } from '../../Pages/DetailProduct'
 
 const ItemsProduct = ({ p, onClick }) => {
   return (
-    <ProductItem
-      lg={3} md={4} xs={6}
+    <Grid
+      item
+      lg={3} md={4} sm={4} xs={6}
     >
-      <ProductImage>
-        <LinkProduct to={`product/${p._id}`}>
-          <PImg src={`${apiUrl}/static/${p.images[0].fileName}`} />
-        </LinkProduct>
-        <OptionDetail>
-          <ViewOption>
-            <AiFillHeart className={styles.flexCenter} style={{ fontSize: '20px' }} />
-          </ViewOption>
-          <ViewOption onClick={(e) => onClick(p, e)} >
-            <BsEye
-              className={styles.flexCenter}
-              style={{ fontSize: '20px' }}
-            />
-          </ViewOption>
-        </OptionDetail>
-      </ProductImage>
-      <ProductInfo>
-        <ProductBrand>{p.id_brand.name}</ProductBrand>
-        <ProductName to={`product/${p._id}`}>{p.name}</ProductName>
-        <ProductInfoGroup>
-          <ProductInfoPriceSale>{toVND(p.price)}
-          </ProductInfoPriceSale>
-          <ProductInfoPrice>{toVND(p.price_sale)}
-            <TagSalePercent>{`-${p.percent_sale}%`}</TagSalePercent>
-          </ProductInfoPrice>
-          <RatingStart number={p.rating_number} />
-        </ProductInfoGroup>
-      </ProductInfo>
-    </ProductItem>
+
+      <ProductItem>
+        <ProductImage>
+          <LinkProduct to={`product/${p._id}`}>
+            <PImg src={`${apiUrl}/static/${p.images[0].fileName}`} />
+          </LinkProduct>
+
+        </ProductImage>
+        <ProductInfo>
+          <ProductBrand>{p.id_brand.name}</ProductBrand>
+          <ProductName to={`product/${p._id}`}>{p.name}</ProductName>
+          <ProductInfoGroup>
+            <ProductInfoPriceSale>{toVND(p.price)}
+            </ProductInfoPriceSale>
+            <Stack
+              flexDirection='row'
+              alignItems='center'
+              gap='20px'
+            >
+              <ProductInfoPrice>{toVND(p.price_sale)}</ProductInfoPrice>
+              <TagPercentSale>{`-${p.percent_sale}%`}</TagPercentSale>
+            </Stack>
+            <RatingStart number={p.rating_number} />
+          </ProductInfoGroup>
+        </ProductInfo>
+      </ProductItem>
+    </Grid>
   )
 }
 

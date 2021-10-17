@@ -2,7 +2,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb, Container } from 'react-bootstrap'
+import { Breadcrumb } from 'react-bootstrap'
 import Slider from "react-slick"
 import { Box } from '@mui/system'
 import { FaShippingFast } from 'react-icons/fa'
@@ -10,7 +10,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { styled as styledMUI } from '@mui/material/styles';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
-import { Stack, Divider, Grid, Paper, Typography, Chip } from '@mui/material'
+import { Stack, Divider, Grid, Typography, Container } from '@mui/material'
 import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 
 import InputQuality from '../components/InputQuality'
@@ -19,9 +19,12 @@ import { apiUrl } from '../context/contanst'
 import { toVND } from '../helper'
 import { ButtonApp } from '../components/Button'
 import { ButtonVariation } from '../components/ButtonVariation'
+import { useDispatch } from 'react-redux'
+import { addItemCart } from '../store/cart/cartSlice'
 
 const DetailProduct = (props) => {
   const productId = props.match.params.productId;
+  const dispatch = useDispatch()
   const [producState, setProductState] = useState({
     isLoadding: true,
     product: {},
@@ -72,11 +75,22 @@ const DetailProduct = (props) => {
     slidesToScroll: 1,
   }
 
-  const handleOnClick = (e) => {
+  const handleOnClick = (value) => {
+    setSize({
+      ...size,
+      quality: value
+    })
+  }
+
+  const handleSetSize = (e) => {
     setSize({
       ...size,
       value: e.target.innerText
     })
+  }
+
+  const handleAddItem = () => {
+    dispatch(addItemCart({ ...product, ...size }))
   }
 
   return (
@@ -108,17 +122,18 @@ const DetailProduct = (props) => {
                 </Stack>
                 <Stack
                   alignItems='center'
-                  divider={<Divider orientation="vertical" flexItem />}
                   direction='row'
-                  spacing={2}
+                  gap='10px'
                 >
                   <RatingStart number={product.rating_number} />
+                  <Divider orientation="vertical" flexItem variant='middle' />
                   <Stack spacing={0.5}
                     direction='row'
                     alignItems='center'>
                     <TextMain>0</TextMain>
                     <TextSub variant='subtitle1'>Đánh giá</TextSub>
                   </Stack>
+                  <Divider orientation="vertical" flexItem variant='middle' />
                   <Stack
                     spacing={0.5}
                     direction='row'
@@ -133,7 +148,7 @@ const DetailProduct = (props) => {
                   direction='row'
                   alignItems='center'
                   p='15px 20px'
-                  bgcolor='#FAFAFA'
+                  bgcolor='#f5f5f5'
                   mt='10px'
                   flexWrap='wrap'
                 >
@@ -186,10 +201,10 @@ const DetailProduct = (props) => {
                         alignItems='center'
                         flexWrap='wrap'
                       >
-                        <ButtonVariation label='30ml' className={size.value === '30ml' ? 'active' : ''} onClick={handleOnClick} />
-                        <ButtonVariation label='60ml' className={size.value === '60ml' ? 'active' : ''} onClick={handleOnClick} />
-                        <ButtonVariation label='100ml' className={size.value === '100ml' ? 'active' : ''} onClick={handleOnClick} />
-                        <ButtonVariation label='150ml' className={size.value === '150ml' ? 'active' : ''} onClick={handleOnClick} />
+                        <ButtonVariation className={size.value === '30ml' ? 'active' : ''} onClick={handleSetSize} >30ml</ButtonVariation>
+                        <ButtonVariation className={size.value === '60ml' ? 'active' : ''} onClick={handleSetSize} >60ml</ButtonVariation>
+                        <ButtonVariation className={size.value === '100ml' ? 'active' : ''} onClick={handleSetSize} >100ml</ButtonVariation>
+                        <ButtonVariation className={size.value === '150ml' ? 'active' : ''} onClick={handleSetSize} >150ml</ButtonVariation>
                       </Stack>
                     </Box>
                   </Stack>
@@ -211,7 +226,14 @@ const DetailProduct = (props) => {
                     flexDirection="flexStart"
                     spacing={2}
                   >
-                    <ButtonApp color='primary' variant='outlined' startIcon={<AddShoppingCartIcon />}>Thêm vào giỏ hàng</ButtonApp>
+                    <ButtonApp
+                      color='primary'
+                      variant='outlined'
+                      startIcon={<AddShoppingCartIcon sx={{ color: 'primary.main' }} />}
+                      onClick={handleAddItem}
+                    >
+                      Thêm vào giỏ hàng
+                    </ButtonApp>
                     <ButtonApp color='primary' variant='contained'>Mua ngay</ButtonApp>
                   </Stack>
                 </Box>
@@ -228,7 +250,7 @@ const DetailProduct = (props) => {
                       alignItems='center'
                       gap='5px'
                     >
-                      <ReplyIcon color='primary' sx={{ fontSize: 20 }} />
+                      <ReplyIcon color='primary' sx={{ fontSize: 20, color: 'primary.main' }} />
                       <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
                         7 ngày hoàn trả
                       </Typography>
@@ -238,7 +260,7 @@ const DetailProduct = (props) => {
                       alignItems='center'
                       gap='5px'
                     >
-                      <VerifiedUserIcon color='primary' sx={{ fontSize: 20 }} />
+                      <VerifiedUserIcon sx={{ fontSize: 20, color: 'primary.main' }} />
                       <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
                         Hàng chính hãng 100%
                       </Typography>
@@ -248,7 +270,7 @@ const DetailProduct = (props) => {
                       alignItems='center'
                       gap='5px'
                     >
-                      <EmojiTransportationIcon color='primary' sx={{ fontSize: 20 }} />
+                      <EmojiTransportationIcon color='primary' sx={{ fontSize: 20, color: 'primary.main' }} />
                       <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
                         Miễn phí vận chuyển
                       </Typography>
@@ -330,13 +352,13 @@ const NameProduct = styledMUI(Typography)({
 })
 
 
-const TextMain = styled(Typography)({
+const TextMain = styledMUI(Typography)({
   color: 'black',
-  fontSize: '16px',
+  fontSize: '14px !important',
 })
 
 
-const TextSub = styled(Typography)({
+const TextSub = styledMUI(Typography)({
   fontSize: '14px',
   display: 'flex',
   alignItems: 'center',
@@ -355,16 +377,19 @@ const PriceSale = styledMUI(Typography)(({ theme }) => ({
 }))
 
 
-const TagPercentSale = styledMUI(Paper)(({ theme }) => ({
+export const TagPercentSale = styledMUI('p')(({ theme }) => ({
   fontSize: '.75rem',
   color: '#fff',
   textTransform: 'uppercase',
   backgroundColor: `${theme.palette.primary.main}`,
   boxShadow: 'none',
   borderRadius: '2px',
-  padding: '2px 4px',
+  padding: '4px',
   fontWeight: '500',
   lineHeight: '1',
   whiteSpace: 'nowrap',
+  display: 'flex',
+  alignItems: 'center',
+  margin: 'unset',
 }))
 

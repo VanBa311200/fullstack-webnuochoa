@@ -3,7 +3,11 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const BannerModel = new Schema({
-  image: {
+  imageDesktop: {
+    type: Object,
+    require: true
+  },
+  imageMobile: {
     type: Object,
     require: true
   },

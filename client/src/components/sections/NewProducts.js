@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { Row } from 'react-bootstrap'
-import { Skeleton, Box } from '@mui/material';
+import { Skeleton, Box, Grid } from '@mui/material';
 
 import { ProductItem } from './ElNewProducts'
 import { SectionContent, SectionHeading } from './ElNewProducts'
-import ModalProduct from './ModalProduct'
 import ItemsProduct from './ItemsProduct'
 import { useSelector } from 'react-redux'
 import { productSelector } from '../../store/product/productReducer'
@@ -28,13 +26,6 @@ const NewProducts = () => {
     })
   }
 
-  const handleCloseModal = (data) => {
-    setDataModal({
-      ...dataModal,
-      isShow: false,
-      data: null
-    })
-  }
 
   let loadingBody = <>
     {Array.from(new Array(8)).map((e, i) =>
@@ -62,7 +53,7 @@ const NewProducts = () => {
       <SectionHeading>
         SẢN PHẨM MỚI
       </SectionHeading>
-      <Row>
+      <Grid container spacing={[1.5, 1.5, 2, 2]}>
         {
           isLoadding ? loadingBody :
             products.map(p =>
@@ -73,8 +64,7 @@ const NewProducts = () => {
               />
             )
         }
-      </Row>
-      <ModalProduct {...dataModal} onCloseModal={handleCloseModal} />
+      </Grid>
     </SectionContent>
   )
 }

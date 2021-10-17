@@ -93,3 +93,7 @@ GET http://localhost:5000/api/product
 ###
 # GET product by id
 GET http://localhost:5000/api/product/612c71e9f2823a481c4da91b
+
+###
+#Search Product by name
+GET  http://localhost:5000/api/product/searchProduct/Montblanc

@@ -7,6 +7,27 @@ const Products = require('../models/Products')
 const fileSizeFormatter = require('../helper/FormatterFile');
 const { listenerCount } = require('../models/Products');
 
+// @route GET /api/searchProduct/
+// @desc get product by name
+// @access public
+router.get('/searchProduct/:name', async (req, res) => {
+  const nameProduct = req.params.name
+  if (!nameProduct)
+    return res.status(200).json({ success: false, message: 'name not found' })
+  try {
+
+    const products = await Products.find({ name: { $regex: new RegExp('.*' + nameProduct.trim() + '.*', 'i') } })
+      .populate('id_brand', ['name']).limit(5)
+    if (!products)
+      return res.status(404).json({ success: false, message: `Don't have name for this product` })
+    return res.json({ success: true, message: 'Get products successfully', products: products })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ success: false, message: 'Interval Server Error!' })
+  }
+})
+
+
 // @route POST /api/product
 // @desc Create product
 // @access public
@@ -107,5 +128,7 @@ router.get('/:id', async (req, res) => {
     return res.status(500).json({ success: false, message: 'Interval Server Error!' })
   }
 })
+
+
 
 module.exports = router;

@@ -1,84 +1,55 @@
-import styled, { keyframes } from 'styled-components'
-
-import { Container, Col } from 'react-bootstrap'
+import styled from 'styled-components'
+import { Container, Typography, Paper, Stack, Box, } from '@mui/material'
+import { styled as styledMUI } from '@mui/system'
 import { Link } from 'react-router-dom'
 
-const FadeInBottom = keyframes`
-  from {
-    opacity: 0;
-    top: 30%;
-  }to {
-    opacity: 1;
-    top: 50%;
-  }
-`
 
-export const SectionContent = styled(Container)`
-  padding-top: 55px;
-  padding-bottom: 55px;
-`
+export const SectionContent = styledMUI(Container)(({ theme }) => ({
+  paddingTop: '55px',
+  paddingBottom: '55px',
+}))
 
-export const SectionHeading = styled.h2`
-  text-transform: uppercase;
-  text-align: center;
-  color: #000;
-  font-size: 25px;
-  font-weight: 500;
-  padding-bottom: 40px;
-  margin: unset;
 
-  @media (min-width: 320px) and (max-width: 576px) {
-    font-size: 20px;
-  }
-`
+export const SectionHeading = styledMUI(Typography)(({ theme }) => ({
+  textTransform: 'uppercase',
+  textAlign: 'center',
+  color: `${theme.palette.grey[800]}`,
+  fontSize: '22px',
+  fontWeight: '500',
+  paddingBottom: '40px',
+  margin: 'unset',
 
-export const ProductItem = styled(Col)`
-  position: relative;
-  margin-bottom: 25px;
-  display: flex;
-  flex-direction: column;
+  [theme.breakpoints.down('md')]: {
+    fontSize: '18px',
+  },
+}))
 
-  &:hover {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  }
 
-  @media only screen and (min-width: 320px) and (max-width: 411px) {
-    padding: 0 5px;
-  }
-`
+export const ProductItem = styledMUI(Paper)(({ theme }) => ({
+  '&:hover': {
+    boxShadow: `${theme.shadows[11]}`,
+    transition: `all .35s ease`,
+  },
 
-export const OptionDetail = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 40px;
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  display: none;
-  animation: ${FadeInBottom} 0.3s linear;
-`
+}))
+
+
 
 export const PImg = styled.img`
   max-width: 100%;
-  height: auto;
+  height: 255px;
   user-select: none;
+  object-fit: contain;
+
+  @media (min-width: 320px) and (max-width: 576px) {
+    height: 160px;
+  }
 `
 
 export const ProductImage = styled.div`
   position: relative;
-
-  &:hover ${OptionDetail}{
-    display: flex;
-    z-index: 1000;
-  }
-  
-  &:hover ${PImg} {
-    filter: blur(2px);
-    -webkit-filter: blur(2px);
-  }
+  background-color: #f5f6fa;
+  text-align: center;
 `
 
 export const LinkProduct = styled(Link)`
@@ -87,47 +58,40 @@ export const LinkProduct = styled(Link)`
   background-color: transparent;
 `
 
-export const ViewOption = styled.div`
-  color: #fff;
-  padding: 10px 16px 10px 16px;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s;
-  border: none;
-  cursor: pointer;
 
-  &:hover {
-    transform: scale(1.1);
-    z-index: 1;
+
+export const ProductInfo = styledMUI(Stack)(({ theme }) => ({
+  padding: '15px',
+  display: 'flex',
+  flexDirection: 'column',
+  flex: '1 1 auto',
+
+  [theme.breakpoints.down('md')]: {
+    padding: '10px',
+  },
+}))
+
+
+export const ProductBrand = styledMUI(Box)(({ theme }) => ({
+  fontSize: '12px',
+  fontWeight: 'bold',
+  letterSpacing: '1.5px',
+  textTransform: 'uppercase',
+  userSelect: 'none',
+  marginBottom: '7px',
+  color: `${theme.palette.grey[800]}`,
+
+  wordBreak: 'keep-all',
+  wordWrap: 'unset',
+  display: '-webkit-box',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+
+  [theme.breakpoints.down('md')]: {
+    marginBottom: '4px',
   }
-`
+}))
 
-export const ProductInfo = styled.div`
-  padding: 15px 10px;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-`
-
-export const ProductBrand = styled.p`
-  font-size: 15px;
-  font-weight: bold;
-  letter-spacing: 3.5px;
-  text-transform: uppercase;
-  user-select: none;
-
-  word-break: break-all;
-  display: -webkit-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-
-  @media (min-width: 320px) and (max-width: 576px) {
-    margin-bottom: 7px;
-    font-size: 13.5px;
-  }
-`
 
 export const ProductName = styled(Link)`
   color: var(--color-primary);
@@ -153,25 +117,25 @@ export const ProductName = styled(Link)`
   }
 `
 
-export const ProductInfoGroup = styled.div`
-  /* margin-top: auto; */
-  margin-top: 15px;
+export const ProductInfoGroup = styledMUI(Box)(({ theme }) => ({
+  marginTop: '8px',
+}))
 
-`
 
-export const ProductInfoPriceSale = styled.p`
-  font-size: 15px;
-  color: var(--text-sale);
-  text-decoration: line-through;
-  font-weight: bold;
-  letter-spacing: 1.3px;
-  margin-bottom: 0px;
-  user-select: none;
+export const ProductInfoPriceSale = styledMUI(Typography)(({ theme }) => ({
+  fontSize: '14px',
+  color: `${theme.palette.grey[500]}`,
+  textDecoration: 'line-through',
+  fontWeight: 500,
+  letterSpacing: '1',
+  marginBottom: ' 0px',
+  userSelect: 'none',
 
-  @media (min-width: 320px) and (max-width: 576px) {
-    font-size: 13px;
+  [theme.breakpoints.down('md')]: {
+    fontSize: '13px',
   }
-`
+}))
+
 
 export const TagSalePercent = styled.span`
   background-color: var(--color-primary);
@@ -185,20 +149,21 @@ export const TagSalePercent = styled.span`
 
 `
 
-export const ProductInfoPrice = styled.p`
-  margin-bottom: unset;
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 1.3px;
-  user-select: none;
+export const ProductInfoPrice = styledMUI(Typography)(({ theme }) => ({
+  marginBottom: 'unset',
+  fontSize: '16px',
+  fontWeight: '500',
+  userSelect: 'none',
+  color: `${theme.palette.primary.main}`,
 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
 
-  @media (min-width: 320px) and (max-width: 576px) {
-    font-size: 13px;
+  [theme.breakpoints.down('md')]: {
+    fontSize: '15px',
   }
-`
+}))
+
 
 

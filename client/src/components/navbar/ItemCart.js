@@ -1,6 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
 import { updateItemCart, removeItemCart } from '../../store/cart/cartSlice';
+import { Box } from '@mui/material'
+import { Link } from 'react-router-dom'
 
 import { toVND } from '../../helper';
 import InputQuality from '../InputQuality';
@@ -21,9 +23,13 @@ const ItemCart = ({ product, delay }) => {
 
   return (
     <CartItem delay={delay}>
-      <CartImage src={`${apiUrl}/static/${product.images[0].fileName}`} />
+      <Box>
+        <Link to={`/product/${product._id}`} underline='none' >
+          <CartImage src={`${apiUrl}/static/${product.images[0].fileName}`} />
+        </Link>
+      </Box>
       <CartInfo>
-        <CartInfoName>{product.name}</CartInfoName>
+        <CartInfoName to={`/product/${product._id}`}>{product.name}</CartInfoName>
         <CartInfoSize>{product.value}</CartInfoSize>
         <CartInfoPrice>{toVND(product.price_sale)}</CartInfoPrice>
         <CartAction>
@@ -31,7 +37,7 @@ const ItemCart = ({ product, delay }) => {
           <ButtonDeleteCart onClick={handleRemoveItem}>Xóa</ButtonDeleteCart>
         </CartAction>
       </CartInfo>
-    </CartItem>
+    </CartItem >
   )
 }
 

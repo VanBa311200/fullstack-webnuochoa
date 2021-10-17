@@ -6,7 +6,6 @@ export const Container = styled.section`
 `
 
 export const ImageSlide = styled.img`
-  object-fit: fill;
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;

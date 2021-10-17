@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
+import { styled as styledMUI } from '@mui/system';
 
-import { AiOutlineClose, AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai'
-import './Css/_Variable.css';
-import './font/stylesheet.fonts.css'
+import { AiOutlineClose } from 'react-icons/ai'
 
 const fadeOut = keyframes`
 from {
@@ -65,9 +64,9 @@ export const HeadItem = styled.li`
   justify-content: center;
   align-items: center;
 
-  &:first-child {
+  /* &:first-child {
     border-right: 1px solid #fff;
-  }
+  } */
   `
 
 export const HeadRight = styled.div`
@@ -80,14 +79,6 @@ export const HeadRight = styled.div`
 export const HeadLeft = styled.div`
   list-style: none;
   display: flex;
-  `
-export const Head = styled.div`
-    background-color: rgb(46, 46, 46);
-
-
-    @media (max-width: 768px) {
-      display: none;
-    }
   `
 
 export const ImageProfile = styled.img`
@@ -117,29 +108,29 @@ export const LinkContact = styled.a`
 
 export const Navbar = styled.nav`
   display: flex;
-  background-color: #f8f9fa;
+  min-height: 60px;
 `
 
-export const NavbarBrand = styled.a`
-  font-size: 2.5rem;
-  font-family: "Courgette", sans-serif;
-  background: var(--color-primary);
-  color: #fff;
-  padding: 0.5% 15px;
-  margin-right: 15px;
-  cursor: pointer;
+export const NavbarBrand = styledMUI(Link)(({ theme }) => ({
+  [theme.breakpoints.down('lg')]: {
+    display: 'none',
+  },
 
-  &:hover {
-    color: unset;
-    text-decoration: none !important;
+  fontSize: ' 2.5rem',
+  fontFamily: '"Courgette", sans-serif',
+  background: `${theme.palette.primary.main}`,
+  color: '#fff',
+  padding: '1.3% 15px',
+  marginRight: '15px',
+  cursor: 'pointer',
+  lineHeight: '100%',
+
+  '&:hover': {
+    color: 'unset !important',
+    textDecoration: 'none !important',
   }
-`
+}))
 
-export const NavbarRight = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`
 
 export const NavbarCollapse = styled.div`
   display: inline-flex;
@@ -180,38 +171,6 @@ export const NavLink = styled.a`
   }
 `
 
-export const FormSearch = styled.div`
-  position: relative;
-  width: ${({ width }) => width || '240px'};
-`
-
-export const FormInput = styled.input`
-  padding: 4px 54px 4px 13px;
-  border-radius: 3px;
-  border: 1px solid var(--color-primary);
-  width: 100%;
-  font-size: 15px;
-
-  &:focus {
-    outline: none;
-  } 
-`
-
-export const ButtonSearch = styled.button`
-  position: absolute;
-  right: 0;
-  top: 0;
-  border: none;
-  border: 1px solid var(--color-primary);
-  background-color: var(--color-primary);
-  color: #fff;
-  cursor: pointer;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-`
 
 export const Overlay = styled.div`
   position: fixed;
@@ -219,7 +178,7 @@ export const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  z-index: 2;
   width: 100vw;
   height: 100vh;
   background-color: #363636;
@@ -331,44 +290,18 @@ export const SideBarM = styled.div`
   flex-direction: column;
 `
 
-export const HeadSidebar = styled.div`
-  padding-top: 15px;
-  display: flex;
-  flex-direction: column;
-`
 
-export const ImgProfile = styled.img.attrs(props => ({
-  width: props.width || '17px',
-  height: props.height || '17px'
-}))`
-  border-radius: 50%;
-`
-
-export const DFCenter = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-export const LinkAction = styled.a`
-  padding: 8px 10px;
-  color: var(--text-secondary);
-  font-size: 18px;
-
-  @media (min-width: 320px) and (max-width: 578px) {
-    font-size: 16px;
-  }
-`
 
 export const BodySideBarMobile = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 150px);
+  height: 100%;
 `
 
 export const SideBarNav = styled.div`
   flex: 1 1 auto;
-  padding: 0 15px;
+  padding: 0 25px;
+  margin-top: 10%;
 `
 
 export const ListItem = styled.div`
@@ -377,7 +310,7 @@ export const ListItem = styled.div`
 `
 
 export const ItemNav = styled.li`
-  border-bottom: thin solid var(--text-secondary);
+  border-bottom: ${({ underLine }) => !underLine ? 'thin solid var(--text-secondary)' : 'unset'};
   padding-top: 20px;
   padding-bottom: 20px;
   color: var(--text-white);
@@ -388,6 +321,7 @@ export const ItemNav = styled.li`
   animation: ${fadeInLeft_sm} .6s ease-out ${({ delay }) => delay ? delay : ''} forwards; 
   list-style: none;
 `
+
 
 export const LinkCustom = styled(Link)`
   color: var(--text-white);
@@ -402,6 +336,13 @@ export const LinkCustom = styled(Link)`
     font-size: 14px;
   }
 `
+
+
+export const ItemUser = styledMUI(LinkCustom)(({ theme }) => ({
+  color: `${theme.palette.grey[600]}`,
+  marginTop: '15px',
+  fontWeight: 600,
+}))
 
 export const FooterSBMobile = styled.div`
   height: 48px;
@@ -515,6 +456,7 @@ export const CartItem = styled.div`
   display: flex;
   opacity: 0;
   transform: translateX(15px);
+  align-items: center;
 
   animation: ${fadeInRight_sm} .45s ease-out ${({ delay }) => delay ? delay : '.35'} forwards;
 `
@@ -523,6 +465,10 @@ export const CartImage = styled.img`
   max-width: 100px;
   outline: none;
   border: none;
+
+  @media (min-width: 0px) and (max-width: 320px) {
+    max-width: 70px;
+  }
 `
 
 export const CartInfo = styled.div`
@@ -532,16 +478,15 @@ export const CartInfo = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  @media (min-width: 320px) and (max-width: 567px) {
+  @media (min-width: 0px) and (max-width: 768px) {
     margin-left: 10px;
   }
 `
 
-export const CartInfoName = styled.p`
-  /* white-space: nowrap; */
+export const CartInfoName = styled(Link)`
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
+  font-size: 15px;
   color: #000;
   margin-bottom: 6px;
 
@@ -549,7 +494,13 @@ export const CartInfoName = styled.p`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   word-break: break-word;
+
+  &:hover {
+    color: unset !important;
+    text-decoration: none !important;
+  }
 `
+
 export const CartInfoOption = styled.div`
   text-align: left;
 `
@@ -558,15 +509,13 @@ export const CartInfoSize = styled.p`
   font-size: 15px;
   margin: unset;
   letter-spacing: 1.5px;
-  font-weight: bold;
+  font-weight: 500;
 `
 
 export const CartInfoPrice = styled.p`
   margin-bottom: unset;
   font-size: 15px;
-  font-weight: bold;
-  margin-right: 4px;
-  letter-spacing: 1.3px;
+  letter-spacing: 1px;
   color: var(--color-primary);
 `
 
@@ -575,54 +524,16 @@ export const CartAction = styled.div`
   margin-top: 10px;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 `
 
-export const SelectorButton = styled.div`
-  width: 32px;
-  height: 32px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 
-export const IconMinus = styled(AiOutlineMinus)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  font-size: 16px;
-  font-weight: 600;
-`
-export const IconPlus = styled(AiOutlinePlus)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  font-size: 16px;
-  font-weight: 600;
-`
 
-export const SelectorValue = styled.input`
-  width: 50px;
-  height: 32px;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  border-left: 1px solid rgba(0,0,0,.09);
-  border-right: 1px solid rgba(0,0,0,.09);
-  border-top: none;
-  border-bottom: none;
-  outline: none;
-`
 
 export const ButtonDeleteCart = styled.button`
   border: none;
   background-color: transparent;
   font-size: 15px;
-  /* padding: 5px 10px; */
   color: var(--color-primary);
   position: relative;
 

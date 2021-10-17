@@ -1,21 +1,13 @@
 import React, { Fragment, useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { FaSearch, FaPhoneSquareAlt, FaFacebookF, FaInstagram } from 'react-icons/fa'
+import { FaPhoneSquareAlt, FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { AiFillYoutube } from 'react-icons/ai'
 import { CSSTransition } from 'react-transition-group'
-import { useSelector } from 'react-redux'
 
-import { selectAuth } from '../../store/auth/authSlice'
 import { NavbarContext } from '../../context/NavbarContext'
 import '../../assets/styles/Csstransition/styles.css'
-import HearIcon from './HearIcon'
-import ShoppingIcon from './ShoppingIcon'
-import { Col } from 'react-bootstrap'
-import style from '../../assets/styles/Css/Styles.module.css'
-import { SideBarM, HeadSidebar, ImgProfile, DFCenter, LinkAction, NavbarRight, FormSearch, FormInput, ButtonSearch, BodySideBarMobile, SideBarNav, FooterSBMobile, FooterSocial, FooterPhone, ListSocial, ListItem, ItemNav, LinkCustom, Overlay } from '../../assets/styles/ElNavbar'
+import { SideBarM, BodySideBarMobile, SideBarNav, FooterSBMobile, FooterSocial, FooterPhone, ListSocial, ListItem, ItemNav, LinkCustom, Overlay, ItemUser } from '../../assets/styles/ElNavbar'
 const SideBarMobile = ({ show }) => {
   const nodeRef = React.useRef(null)
-  const { user } = useSelector(selectAuth)
   const { showSidebarMobile, setShowSidebarMobile } = useContext(NavbarContext);
 
   const handleOnlick = () => {
@@ -35,33 +27,6 @@ const SideBarMobile = ({ show }) => {
         <Fragment>
           <Overlay onClick={handleOnlick} />
           <SideBarM ref={nodeRef}>
-            <HeadSidebar onClick={handleOnlick}>
-              <DFCenter>
-                <Link to='/account' >
-                  <ImgProfile src="/assets/images/img-profile.png" alt='Image_Profile' width='50px' height='50px' />
-                </Link>
-              </DFCenter>
-              <DFCenter>
-                {user ? <LinkAction to='/user' as={Link} >{user.fullname}</LinkAction >
-                  : <>
-                    <LinkAction to='/register' as={Link} >Register</LinkAction >
-                    <LinkAction to='/login' as={Link} >Login</LinkAction >
-                  </>
-                }
-              </DFCenter>
-              <NavbarRight style={{ padding: '0 15px' }}>
-                <FormSearch width='180px'>
-                  <FormInput style={{ paddingRight: '32px' }} />
-                  <ButtonSearch>
-                    <FaSearch />
-                  </ButtonSearch>
-                </FormSearch>
-                <Col className={style.df}>
-                  <HearIcon color='#fff' />
-                  <ShoppingIcon color='#fff' />
-                </Col>
-              </NavbarRight>
-            </HeadSidebar>
             <BodySideBarMobile>
               <SideBarNav>
                 <ListItem onClick={handleOnlick}>
@@ -79,6 +44,9 @@ const SideBarMobile = ({ show }) => {
                   </ItemNav>
                   <ItemNav delay='.7s'>
                     <LinkCustom to='/contact'>Contact</LinkCustom>
+                  </ItemNav>
+                  <ItemNav delay='.8s' underLine>
+                    <ItemUser to='/login' > Tài khoản</ItemUser>
                   </ItemNav>
                 </ListItem>
               </SideBarNav>

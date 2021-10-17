@@ -1,27 +1,20 @@
 import React, { useContext } from 'react'
-// import style from './styled-ele/ButtonMobile.module.css'
-import { ButtonM, InputButtonMobile, MenuIcon, MenuLine } from '../../assets/styles/ElNavbar'
 import { NavbarContext } from '../../context/NavbarContext'
+import { IconButton } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ButtonMobile = () => {
   const { setShowSidebarMobile, showSidebarMobile } = useContext(NavbarContext);
 
-  const onChangHandler = (e) => {
-    setShowSidebarMobile(e.target.checked)
+  const onClickHandler = (e) => {
+    setShowSidebarMobile(!showSidebarMobile)
   }
 
   return (
-    <ButtonM>
-      <InputButtonMobile
-        type="checkbox"
-        onChange={onChangHandler}
-        checked={showSidebarMobile}
-      />
-      <MenuIcon >
-        <MenuLine >
-        </MenuLine>
-      </MenuIcon>
-    </ButtonM >
+    <IconButton onClick={onClickHandler}>
+      {showSidebarMobile ? <CloseIcon /> : <MenuIcon />}
+    </IconButton >
   )
 }
 

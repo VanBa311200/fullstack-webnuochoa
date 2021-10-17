@@ -103,17 +103,6 @@ export const IconEye = styled.div`
   justify-content: center;
 `
 
-export const ButtonAction = styled.button`
-  color: white;
-  background-color: var(--color-primary);
-  font-size: 16px;
-  outline: none;
-  text-transform: uppercase;
-  border-radius: 5px;
-  width: 100%;
-  border: none;
-  height: 43px;
-`
 
 export const LinkOption = styled(Link)`
   text-decoration: none;

@@ -1,22 +1,22 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
+import { Divider } from '@mui/material'
 
 import { CarouselData } from '../components/carousel/CarouselData'
 import Carousel from '../components/carousel/Carousel'
 import NewProducts from '../components/sections/NewProducts'
-import { LineHorizontal } from './El'
 import SectionPR from '../components/sections/SectionPR'
+import { Paper } from '@mui/material'
 
 const Home = () => {
 
 
   return (
-    <Container fluid style={{ padding: 'unset' }}>
+    <Paper >
       <Carousel slides={CarouselData} />
       <NewProducts />
-      <LineHorizontal />
+      <Divider />
       <SectionPR />
-    </Container>
+    </Paper>
   )
 }
 

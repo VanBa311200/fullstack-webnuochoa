@@ -6,8 +6,9 @@ import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { userLogin, setAuth } from '../../store/auth/authSlice'
 
-import { ButtonAction, Container, Form, FormGroup, IconEye, TitleForm, ErrorMessage, OptionForgot, LinkOption, OptionSign, WrappInput } from './El'
+import { Container, Form, FormGroup, IconEye, TitleForm, ErrorMessage, OptionForgot, LinkOption, OptionSign, WrappInput } from './El'
 import { useHistory } from 'react-router'
+import { ButtonApp } from '../Button'
 
 
 const LoginForm = () => {
@@ -16,8 +17,8 @@ const LoginForm = () => {
   const [isHide, setIsHide] = useState(true)
   // const { loginUser } = useContext(AuthContext)
   const initialValues = {
-    email: 'vanba311200@gmail.com',
-    password: 'Tk0968246516'
+    email: '',
+    password: ''
   }
 
   const schema = yup.object().shape({
@@ -112,7 +113,7 @@ const LoginForm = () => {
         <OptionForgot>
           Quên <LinkOption to='/'>Tài khoản/Mật khẩu?</LinkOption>
         </OptionForgot>
-        <ButtonAction type='submit'>Đăng nhập</ButtonAction>
+        <ButtonApp variant='contained' sx={{ minWidth: '100%' }} type='submit'>Đăng nhập</ButtonApp>
         <OptionSign>
           <p>Bạn chưa có tài khoản?</p>
           <LinkOption to='/register'>Đăng ký</LinkOption>

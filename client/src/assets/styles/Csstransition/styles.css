@@ -43,13 +43,15 @@
 
 .dropDown-enter {
   opacity: 0;
-  transform: translateY(-5%);
+  transform: scale(.9);
+  transform-origin: top right;
 }
 
 .dropDown-enter-active {
   opacity: 1;
-  transform: translateY(0);
-  transition: all .35s ease-out;
+  transform: scale(1);
+  transform-origin: top right;
+  transition: all .25s ease;
 }
 
 .dropDown-exit {
@@ -58,6 +60,28 @@
 
 .dropDown-exit-active {
   opacity: 0;
-  transform: translateY(-5%);
-  transition: all .35s ease-out;
+  transform: scale(.9);
+  transform-origin: top right;
+  transition: all .15s ease;
+}
+
+/* Page Search */
+
+.fadeInDown-enter {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+.fadeInDown-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all .3s ease;
+}
+.fadeInDown-exit {
+  opacity: 1;
+}
+
+.fadeInDown-exit-active{
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: all .3s ease;
 }
