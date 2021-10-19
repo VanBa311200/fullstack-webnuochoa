@@ -26,6 +26,8 @@ const NavbarMenu = () => {
   const [showPageSearch, setShowPageSearch] = useState(false)
   const ref = useRef(null)
 
+  showPageSearch ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'unset';
+
   const handleOnClickUser = () => {
     setIsShowDropDown(!isShowDropDown)
   }
@@ -71,9 +73,9 @@ const NavbarMenu = () => {
                 {user ?
                   <>
                     <HeadItem style={{ borderRight: 'unset' }} >
-                      <LinkContact ref={ref} onClick={handleOnClickUser}>
+                      <LinkContact ref={ref} onClick={handleOnClickUser} >
                         <ImageProfile src={user.image ? `${apiUrl}/static/${user.image}` : '/assets/images/img-profile.png'} />
-                        {user.fullname}
+                        <p style={{ margin: 'unset' }}>{user.fullname}</p>
                       </LinkContact>
                     </HeadItem>
                     <DropDown isShowDropDown={isShowDropDown} />

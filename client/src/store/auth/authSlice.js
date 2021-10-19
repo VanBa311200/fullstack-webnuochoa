@@ -4,6 +4,7 @@ import { setAuthToken } from '../../utils/ConfigHeader'
 import { setLocalStorage } from "../../helper";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+// check Auth and SetAuth
 export const setAuth = createAsyncThunk('auth/setAuth',
   async (formData, { rejectWithValue }) => {
     if (localStorage[LOCAL_STORAGE_TOKEN_AUTH]) {
@@ -20,6 +21,7 @@ export const setAuth = createAsyncThunk('auth/setAuth',
   }
 )
 
+// Register User
 export const userRegister = createAsyncThunk('auth/userRegister',
   async (formData, { rejectWithValue }) => {
     try {
@@ -31,12 +33,25 @@ export const userRegister = createAsyncThunk('auth/userRegister',
   }
 )
 
+// Login user
 export const userLogin = createAsyncThunk('auth/userLogin',
   async (formData, { rejectWithValue }) => {
     try {
       const res = await axios.post(`${apiUrl}/api/auth/login`, formData)
       if (res.data.success)
         return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+// Update name
+export const updateName = createAsyncThunk('auth/updateName',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${apiUrl}/api/auth/updateName`, formData)
+      return res.data
     } catch (error) {
       return rejectWithValue(error.response.data)
     }
@@ -86,7 +101,12 @@ const authSlice = createSlice({
     },
     [userRegister.rejected]: (state, action) => {
       // console.log(action.payload.message)
-    }
+    },
+    [updateName.fulfilled]: (state, action) => {
+      state.user.fullName = action.fullName
+    },
+    [updateName.rejected]: (state, action) => { },
+
   }
 })
 

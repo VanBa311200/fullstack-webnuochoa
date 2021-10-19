@@ -38,6 +38,48 @@ theme = createTheme({
     },
   },
   components: {
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          paddingTop: '10px !important'
+        }
+      }
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: '10px 24px 28px 24px',
+        }
+      }
+    },
+
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          paddingBottom: '10px',
+          paddingTop: '28px'
+        }
+      }
+    },
+
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          '& .MuiPaper-root': {
+            borderRadius: '8px',
+          }
+        }
+      }
+    },
+
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          backdropFilter: 'blur(5px)'
+        }
+      }
+    },
+
     MuiPaper: {
       styleOverrides: {
         root: {

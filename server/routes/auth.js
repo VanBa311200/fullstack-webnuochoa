@@ -7,6 +7,28 @@ const verifyToken = require('../middleware/auth')
 const User = require('../models/User')
 
 
+
+// @route get api/auth/updateName
+// @desc update name
+// @access Private
+router.get('/', verifyToken, async (req, res) => {
+  const { firstName, lastName } = req.body
+
+  if (!firstName || !lastName)
+    return res.status(400).json({ success: false, message: 'Please fill form' })
+
+  try {
+    const user = await User.findOneAndUpdate({ _id: req.userId }, { fullName: `${firstName} ${lastName}` })
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+    res.status(200).json({ success: true, message: 'Success', user })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error!' })
+  }
+})
+
 // @route get api/auth
 // @desc Check if user login
 // @access Public

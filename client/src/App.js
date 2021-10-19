@@ -13,6 +13,9 @@ import { useDispatch } from 'react-redux'
 import { setAuth } from './store/auth/authSlice'
 import { getItemCart } from './store/cart/cartSlice'
 import { getProducts } from './store/product/productReducer'
+import User from './Pages/User';
+import ProtectedRoute from './components/ProtectedRoute';
+import UserNavbar from './components/UserNavbar';
 
 function App() {
   const bounce = cssTransition({
@@ -55,6 +58,7 @@ function App() {
                 <Auth {...props} redirect='login' />
               </Master1>}
           />
+          <ProtectedRoute exact path='/account' component={User} />
           <Route
             path='/product/:productId'
             render={props =>
@@ -70,6 +74,10 @@ function App() {
           <Route
             path='/admin/manager/product'
             component={UploadProduct}
+          />
+          <Route
+            path='/test'
+            component={UserNavbar}
           />
 
         </Switch>

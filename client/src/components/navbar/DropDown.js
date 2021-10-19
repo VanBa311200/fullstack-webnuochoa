@@ -74,7 +74,7 @@ const DropDownMenu = styled.div`
     position: absolute;
     content: '';
     top: 0;
-    left: 60px;
+    right: 20px;
     width: 10px;
     height: 10px;
     background-color: inherit;

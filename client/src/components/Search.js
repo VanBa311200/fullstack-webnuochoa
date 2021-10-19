@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { styled as styledMUI } from '@mui/styles'
 import { Stack, Paper, Typography, Divider, Box } from '@mui/material'
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition } from 'react-transition-group';
+
 import axios from 'axios'
 import { apiUrl } from '../context/contanst'
 
@@ -79,7 +80,7 @@ const Search = () => {
 
 
       <CSSTransition
-        in={showSearchResultBox}
+        in={showSearchResultBox && textSearch}
         nodeRef={nodeRef}
         classNames='fadeInDown'
         timeout={300}
@@ -89,13 +90,13 @@ const Search = () => {
           <Paper
             elevation={0}
           >
-            <Stack flexDirection='column'>
+            <Stack flexDirection='column' sx={{ overflowWrap: 'break-word' }}>
               <HeaderSearch>
                 <SearchIcon sx={{ fontSize: '15px' }} />
                 <Typography
                   variant='subtitle1'
-                  sx={{ fontSize: '13px' }}
-                >Kết quả cho '{textSearch}'</Typography>
+                  sx={{ fontSize: '13px', minWidth: '0px' }}
+                >Kết quả cho ' {textSearch} '</Typography>
               </HeaderSearch>
             </Stack>
             <Box>
@@ -124,6 +125,7 @@ const BoxResult = styledMUI('div')(({ theme }) => ({
   width: '260px',
   top: '120%',
   left: '0px',
+  right: '0px',
   zIndex: 2,
   padding: '10px 15px',
   borderRadius: '10px',

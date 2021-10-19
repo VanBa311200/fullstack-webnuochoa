@@ -1,8 +1,6 @@
 import axios from 'axios'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
-import { Breadcrumb } from 'react-bootstrap'
 import Slider from "react-slick"
 import { Box } from '@mui/system'
 import { FaShippingFast } from 'react-icons/fa'
@@ -95,13 +93,6 @@ const DetailProduct = (props) => {
 
   return (
     <Container>
-      <Breadcrumb>
-        <Breadcrumb.Item to='/' as={Link} active>Home</Breadcrumb.Item>
-        <Breadcrumb.Item active>
-          Product
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
-      </Breadcrumb>
       {
         isLoadding ? 'Loading' :
           <Grid container spacing='25px' pb='20px'>

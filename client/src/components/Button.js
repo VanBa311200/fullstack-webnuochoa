@@ -17,5 +17,10 @@ export const ButtonApp = styled(Button)(({ theme, variant }) => ({
   '&:hover': {
     backgroundColor: `${variant === 'contained' ? theme.palette.primary.main : theme.palette.secondary.main}`,
     opacity: 0.90,
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    padding: '0 15px',
+    height: '45px',
   }
 }))

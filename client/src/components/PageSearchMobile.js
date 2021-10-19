@@ -97,7 +97,12 @@ const PageSearchMobile = ({ show, onClose }) => {
             <Typography sx={{
               fontSize: '14px',
               color: 'grey.600',
-              textAlign: 'center'
+              textAlign: 'center',
+              maxWidth: '200px',
+              minWidth: '0px',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              wordBreak: 'break-word',
             }}
             >
               Kết quả tìm kiếm '{inputText}'

@@ -100,9 +100,20 @@ export const LinkContact = styled.a`
   align-items: center;
   cursor: pointer;
   user-select: none;
+  
 
   &:hover {
     color: var(--color-primary);
+  }
+
+  p {
+    max-width: 150px;
+    
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 

@@ -23,13 +23,13 @@ const LoginForm = () => {
 
   const schema = yup.object().shape({
     email: yup.string()
-      .required('Email không được bỏ trống')
-      .email('Bạn phải nhập đúng email'),
+      .required('Điền vô nhanh')
+      .email('Chưa phải email nha'),
     password: yup.string()
-      .required('Password không được bỏ trống')
+      .required('Điền vô nhanh')
       .test('testUpperCase', 'Mật khẩu phải có ít nhất 1 ký tự viết hoa', (value) =>
         /[A-Z]/.test(value))
-      .min(8, 'Mật khẩu ít nhất 8 ký tự')
+      .min(8, 'Ít nhất 8 ký tự nha bạn')
   })
 
   const formik = useFormik({

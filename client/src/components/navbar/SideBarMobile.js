@@ -46,7 +46,7 @@ const SideBarMobile = ({ show }) => {
                     <LinkCustom to='/contact'>Contact</LinkCustom>
                   </ItemNav>
                   <ItemNav delay='.8s' underLine>
-                    <ItemUser to='/login' > Tài khoản</ItemUser>
+                    <ItemUser to='/account' > Tài khoản</ItemUser>
                   </ItemNav>
                 </ListItem>
               </SideBarNav>

@@ -3,6 +3,7 @@ import * as yup from 'yup'
 import { Formik } from 'formik'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 import { ButtonApp } from '../Button'
 import { userRegister } from '../../store/auth/authSlice'
@@ -14,27 +15,29 @@ const RegisterForm = () => {
 
   const schema = yup.object().shape({
     firstName: yup.string()
-      .min(2, 'Tên không hợp lệ')
-      .required('Tên không được bỏ trống'),
+      .min(2, 'Tên éo gì có 1 chữ')
+      .max(10, 'Ey, Tên éo gì dài vậy =))')
+      .required('Điền vô nhanh'),
     lastName: yup.string()
-      .required('Họ không được bỏ trống')
-      .min(2, 'Họ không hợp lệ'),
+      .required('Điền vô nhanh')
+      .min(2, 'Họ éo gì có 1 chữ')
+      .max(10, 'Ey, Họ éo gì dài vậy =))'),
     email: yup.string()
-      .required('Email không được bỏ trống')
+      .required('Điền vô nhanh')
       .email('Bạn phải nhập đúng email')
-      .test('checkExistUser', 'Email này đã được đăng ký',
+      .test('checkExistUser', 'Email này sài rồi bạn ơi!!!',
         (values) => {
           return checkEmailExist(values)
         }
       ),
     password: yup.string()
-      .required('Password không được bỏ trống')
+      .required('Điền vô nhanh')
       .test('testUpperCase', 'Mật khẩu phải có ít nhất 1 ký tự viết hoa', (value) =>
         /[A-Z]/.test(value))
       .min(8, 'Mật khẩu ít nhất 8 ký tự'),
     comfirmPassword: yup.string()
-      .required('Password không được bỏ trống')
-      .oneOf([yup.ref('password'), null], 'Mật khẩu không trùng')
+      .required('Điền vô nhanh')
+      .oneOf([yup.ref('password'), null], 'Gõ lại cũn gõ sai!!!')
   })
 
   const initialValues = {
@@ -56,6 +59,7 @@ const RegisterForm = () => {
             .then((result) => {
               actions.resetForm({ values: initialValues })
               resolve(result.message)
+              return <Redirect to='/login' />
             })
             .catch((result) => {
               actions.resetForm({ ...data, comfirmPassword: '', password: '' })

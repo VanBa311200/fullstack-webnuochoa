@@ -144,6 +144,7 @@ const GroupForm = styled.div`
   input {
     height: 50px;
     padding-left: 20px;
+    padding-right: 60px;
     outline: none;
     border-radius: 2px;
     width: 100%;
