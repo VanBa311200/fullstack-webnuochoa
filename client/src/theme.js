@@ -24,6 +24,10 @@ theme = createTheme({
       main: 'rgba(250, 181, 181, 0.3)',
       contrastText: '#000',
     },
+    text: {
+      primary: grey[800],
+      secondary: grey[700]
+    },
   },
   typography: {
     fontFamily: 'Roboto',
@@ -41,7 +45,8 @@ theme = createTheme({
     MuiDialogContent: {
       styleOverrides: {
         root: {
-          paddingTop: '10px !important'
+          paddingTop: 'unset',
+          padding: '10px 24px !important'
         }
       }
     },
@@ -83,7 +88,6 @@ theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          position: 'sticky !important',
           boxShadow: 'none',
           borderRadius: 'unset',
         }
@@ -126,7 +130,37 @@ theme = createTheme({
           borderColor: grey[400]
         }
       }
-    }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.text.primary,
+          },
+          '&.Mui-error .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette.error.main,
+          },
+          '& label.Mui-focused': {
+            color: theme.palette.text.primary,
+          },
+          '& label.Mui-error': {
+            color: theme.palette.error.main,
+          },
+        }
+      }
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '&.Mui-focused': {
+            color: theme.palette.text.primary,
+          },
+          '&.Mui-error': {
+            color: theme.palette.error.main,
+          },
+        }
+      }
+    },
   }
 })
 

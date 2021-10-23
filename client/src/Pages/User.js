@@ -10,12 +10,18 @@ import Master1 from '../views/Master1'
 
 import UserNavbar from '../components/UserNavbar'
 import DialogUserName from '../components/DialogUserName'
+import DialogChangePass from '../components/DialogChangePass'
+import DialogChangePhone from '../components/DialogChangePhone'
+import DialogChangeAddress from '../components/DialogChangeAddress'
 
 
 const User = (props) => {
   const { user } = useSelector(selectAuth)
   const [showDialogName, setShowDialogName] = React.useState(false)
   const [isOpenUserNav, setIsOpenUserNav] = React.useState(false);
+  const [showDialogChangePass, setShowDialogChangePass] = React.useState(false);
+  const [showDialogChangePhone, setShowDialogChangePhone] = React.useState(false);
+  const [showDialogChangeAddress, setShowDialogChangeAddress] = React.useState(false);
 
   const handleOpenUserNav = () => {
     setIsOpenUserNav(!isOpenUserNav)
@@ -27,7 +33,7 @@ const User = (props) => {
 
   return (
     <Master1>
-      <Container maxWidth='lg' sx={{ marginTop: '20px', minHeight: '60vh' }}>
+      <Container maxWidth='lg' sx={{ marginTop: '20px', marginBottom: '20px', minHeight: '60vh' }}>
         <Typography
           component='h1'
           sx={{
@@ -64,25 +70,42 @@ const User = (props) => {
                 <span>Email</span>
                 <p>{user.email}</p>
               </div>
-              <button>Sửa</button>
             </Wrapper>
           </Grid>
           <Grid item md={6} xs={12}>
             <Wrapper>
               <div>
                 <span>Địa chỉ</span>
-                <p>{'...' || user.address}</p>
+                {user.address ?
+                  <>
+                    <p>{user.address.addressDetail}</p>
+                    <p>{user.address.ward}</p>
+                    <p>{user.address.district}</p>
+                    <p>{user.address.city}</p>
+                  </>
+                  :
+                  <p>...</p>
+                }
               </div>
-              <button>Sửa</button>
+              <button onClick={() => setShowDialogChangeAddress(true)} >Sửa</button>
             </Wrapper>
           </Grid>
           <Grid item md={6} xs={12}>
             <Wrapper>
               <div>
                 <span>Số điện thoại</span>
-                <p>{'...' || user.phone}</p>
+                <p>{user.phone || '...'}</p>
               </div>
-              <button>Sửa</button>
+              <button onClick={() => setShowDialogChangePhone(true)}>Sửa</button>
+            </Wrapper>
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <Wrapper>
+              <div>
+                <span>Đổi mật khẩu</span>
+                <p>{'*********'}</p>
+              </div>
+              <button onClick={() => setShowDialogChangePass(true)}>Đổi mật khẩu</button>
             </Wrapper>
           </Grid>
         </Grid>
@@ -92,6 +115,9 @@ const User = (props) => {
         show={showDialogName}
         onClose={() => setShowDialogName(false)}
       />
+      <DialogChangePass show={showDialogChangePass} onClose={() => setShowDialogChangePass(false)} />
+      <DialogChangePhone show={showDialogChangePhone} onClose={() => setShowDialogChangePhone(false)} />
+      <DialogChangeAddress show={showDialogChangeAddress} onClose={() => setShowDialogChangeAddress(false)} />
     </Master1>
   )
 }
@@ -105,10 +131,10 @@ const Wrapper = styledMUI('div')(({ theme }) => ({
   fontSize: '15px',
 
   '& div': {
-    width: '65%',
-
+    flex: 1,
     fontWeight: 500,
     overflow: 'hidden',
+    padding: '0 15px',
 
     '& span': {
       color: theme.palette.grey[600],
@@ -116,6 +142,7 @@ const Wrapper = styledMUI('div')(({ theme }) => ({
     '& p': {
       color: theme.palette.grey[800],
       wordBreak: 'break-word',
+      marginBottom: 'unset',
     },
   },
 
@@ -128,12 +155,10 @@ const Wrapper = styledMUI('div')(({ theme }) => ({
     height: '18px',
     fontSize: '15px',
     cursor: 'pointer',
+    padding: '0 15px',
   },
 
-  [theme.breakpoints.down('md')]: {
-    justifyContent: 'space-evenly',
-  },
   [theme.breakpoints.up('md')]: {
-    paddingLeft: '20px',
+    paddingLeft: '40px',
   },
 }))

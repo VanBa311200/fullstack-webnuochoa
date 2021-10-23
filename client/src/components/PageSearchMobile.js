@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { styled as styledMUI } from '@mui/styles'
 import { Box, Typography, IconButton, Stack } from '@mui/material'
+import { ReactComponent as IconLoading20px } from '../assets/icon/Spin-1s-20px.svg'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { VscClose } from 'react-icons/vsc'
 import SearchIcon from '@mui/icons-material/Search';
@@ -15,9 +16,10 @@ import ItemSearch from './ItemSearch'
 const PageSearchMobile = ({ show, onClose }) => {
   const [inputText, setInputText] = useState('')
   const [products, setProducts] = useState([])
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false)
   let typingTimer = useRef(null)
   const nodeRef = useRef(null)
-  let doneTypingInterval = 500
+  let doneTypingInterval = 400
 
   const handleOnChange = (e) => {
     setInputText(e.target.value)
@@ -33,12 +35,18 @@ const PageSearchMobile = ({ show, onClose }) => {
   }
 
   const onSubmit = async (value) => {
-    if (value.length > 2)
+    if (value.length > 2) {
+      setIsLoadingSearch(true)
       await axios.get(`${apiUrl}/api/product/searchProduct/${value}`)
         .then((res) => {
           setProducts(res.data.products)
+          setIsLoadingSearch(false)
         })
-        .catch((error) => console.log(error.response.message))
+        .catch((error) => {
+          setIsLoadingSearch(false)
+          console.log(error.response.message)
+        })
+    }
   }
 
   const handleOnClose = () => {
@@ -55,16 +63,17 @@ const PageSearchMobile = ({ show, onClose }) => {
     >
 
       <Container ref={nodeRef}>
-        <Typography variant='body1'>Tìm kiếm sản phẩm</Typography>
         <IconButton sx={{
           position: 'absolute',
           top: '0px',
           right: '0px',
+          padding: '20px'
         }}
           onClick={handleOnClose}
         >
           <VscClose />
         </IconButton>
+        <Typography variant='body1' mt='40px'>Tìm kiếm sản phẩm</Typography>
         <WrapInput>
           <input
             autoFocus
@@ -93,7 +102,7 @@ const PageSearchMobile = ({ show, onClose }) => {
             marginTop='10px'
 
           >
-            <SearchIcon sx={{ fontSize: '20px', color: 'grey.600' }} />
+            {isLoadingSearch ? <IconLoading20px /> : <SearchIcon sx={{ fontSize: '20px', color: 'grey.600' }} />}
             <Typography sx={{
               fontSize: '14px',
               color: 'grey.600',
@@ -123,12 +132,13 @@ const PageSearchMobile = ({ show, onClose }) => {
 export default PageSearchMobile
 
 const Container = styledMUI('div')(({ theme }) => ({
-  height: 'calc(100vh - 60px)',
+  height: 'calc(100vh)',
   padding: '8px 15px',
   backgroundColor: `${theme.palette.background.paper}`,
   width: '100vw',
   overflow: 'hidden',
-  position: 'relative',
+  position: 'fixed',
+  zIndex: 2,
 }))
 
 const WrapInput = styledMUI('div')(({ theme }) => ({

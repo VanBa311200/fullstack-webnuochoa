@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { styled as styledMUI } from '@mui/styles'
 import { Stack, Paper, Typography, Divider, Box } from '@mui/material'
+import { ReactComponent as IconLoading20px } from '../assets/icon/Spin-1s-20px.svg'
 import { CSSTransition } from 'react-transition-group';
 
 import axios from 'axios'
@@ -15,11 +16,13 @@ const Search = () => {
   const [textSearch, setTextSearch] = useState('')
   const [showSearchResultBox, setShowSearchResultBox] = useState(false)
   const [productSearch, setProductSearch] = useState([])
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false)
+
   const refOutSide = useRef(null)
   const nodeRef = useRef(null)
 
   let typingTimer = useRef(null)
-  let doneTypingInterval = 800
+  let doneTypingInterval = 400
 
   useEffect(() => {
     const checkClickOutside = (e) => {
@@ -47,15 +50,21 @@ const Search = () => {
     clearTimeout(typingTimer.current)
     if (e.target.value) {
       typingTimer.current = setTimeout(() => sendToServe(e.target.value), doneTypingInterval)
-      // console.log(typingTimer)
     }
   }
 
   const sendToServe = async (value) => {
     if (value.length > 2) {
+      setIsLoadingSearch(true)
       await axios.get(`${apiUrl}/api/product/searchProduct/${value}`)
-        .then((data) => setProductSearch(data.data.products))
-        .catch((error) => console.log('Errors', error))
+        .then((data) => {
+          setProductSearch(data.data.products)
+          setIsLoadingSearch(false)
+        })
+        .catch((error) => {
+          console.log('Errors', error)
+          setIsLoadingSearch(false)
+        })
     }
   }
 
@@ -80,7 +89,7 @@ const Search = () => {
 
 
       <CSSTransition
-        in={showSearchResultBox && textSearch}
+        in={showSearchResultBox && !!textSearch}
         nodeRef={nodeRef}
         classNames='fadeInDown'
         timeout={300}
@@ -92,7 +101,7 @@ const Search = () => {
           >
             <Stack flexDirection='column' sx={{ overflowWrap: 'break-word' }}>
               <HeaderSearch>
-                <SearchIcon sx={{ fontSize: '15px' }} />
+                {isLoadingSearch ? <IconLoading20px style={{ width: '15px', height: '15px' }} /> : <SearchIcon sx={{ fontSize: '15px' }} />}
                 <Typography
                   variant='subtitle1'
                   sx={{ fontSize: '13px', minWidth: '0px' }}
@@ -103,7 +112,7 @@ const Search = () => {
               {
                 !!productSearch.length &&
                 <>
-                  <Divider />
+                  <Divider sx={{ marginTop: '5px' }} />
                   {productSearch.map((p) =>
                     <ItemSearch key={p._id} {...p} onClick={() => setShowSearchResultBox(false)} />
                   )}
@@ -122,7 +131,6 @@ export default Search
 
 const BoxResult = styledMUI('div')(({ theme }) => ({
   position: 'absolute',
-  width: '260px',
   top: '120%',
   left: '0px',
   right: '0px',

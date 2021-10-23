@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     require: true,
   },
   address: {
-    type: String,
+    type: Object,
   },
   fullname: {
     type: String,

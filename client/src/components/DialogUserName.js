@@ -1,12 +1,17 @@
-import React from 'react'
-import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
-import { Stack, FormControl, InputLabel, OutlinedInput, FormHelperText } from '@mui/material'
+import React, { useRef } from 'react'
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, DialogContentText } from '@mui/material'
+import { Stack, FormControl } from '@mui/material'
 import { Formik } from 'formik'
 import * as yup from 'yup';
-
-import { ButtonApp } from './Button'
+import { useDispatch } from 'react-redux';
+import { updateName } from '../store/auth/authSlice';
+import { toast } from 'react-toastify'
 
 const DialogUserName = ({ show, onClose }) => {
+  const dispatch = useDispatch()
+  let idToast = useRef(null)
+  const nodeRef = useRef(null)
+
   const initialValues = {
     firstName: '',
     lastName: ''
@@ -19,58 +24,71 @@ const DialogUserName = ({ show, onClose }) => {
   })
 
   return (
-    <Dialog open={show} onClose={onClose}>
+
+    <Dialog open={show} onClose={onClose} ref={nodeRef}>
       <Formik
         initialValues={initialValues}
         validationSchema={schema}
-        onSubmit={(values, actions) => {
-          console.log(values)
-          actions.resetForm({ values: initialValues })
-          onClose()
+        onSubmit={async (values, actions) => {
+          idToast = toast.loading('Loading...')
+          await dispatch(updateName(values))
+            .unwrap()
+            .then(({ message }) => {
+              toast.update(idToast, { render: message, type: 'success', isLoading: false, autoClose: 2000 })
+              actions.resetForm({ values: initialValues })
+              onClose()
+            })
+            .catch(({ message }) => {
+              toast.update(idToast, { render: message, type: 'error', isLoading: false, autoClose: 2000 })
+            })
         }}
       >
         {({ handleChange, handleSubmit, values, errors, touched }) => (
           <>
-            <DialogTitle sx={{ paddingBottom: '10px' }}>Sửa tên của bạn</DialogTitle>
+            <DialogTitle sx={{ paddingBottom: '10px' }}>Cập nhập tên
+              <DialogContentText>Vui lòng nhập tên thật</DialogContentText>
+            </DialogTitle>
             <DialogContent>
               <Stack flexDirection='row' gap='10px' flexWrap='wrap'>
                 <FormControl
-                  error={errors.firstName ? true : false}
                   sx={{ width: ['100%', '100%', 'auto', 'auto'] }} >
-                  <InputLabel htmlFor="First Name">First Name</InputLabel>
-                  <OutlinedInput
+                  <TextField
+                    error={errors.firstName ? true : false}
                     id="First Name"
                     name='firstName'
                     value={values.firstName}
                     label='First Name'
                     onChange={handleChange}
+                    helperText={errors.firstName}
+                    size='small'
                   />
-                  {errors.firstName && touched.firstName && <FormHelperText>{errors.firstName}</FormHelperText>}
                 </FormControl>
                 <FormControl
-                  error={errors.lastName ? true : false}
+
                   sx={{ width: ['100%', '100%', 'auto', 'auto'] }}
                 >
-                  <InputLabel htmlFor="Last Name">Last Name</InputLabel>
-                  <OutlinedInput
+                  <TextField
+                    error={errors.lastName ? true : false}
                     name="lastName"
                     label="Last Name"
                     type="text"
                     value={values.lastName}
                     onChange={handleChange}
+                    helperText={errors.lastName}
+                    size='small'
                   />
-                  {errors.lastName && touched.lastName && <FormHelperText>{errors.lastName}</FormHelperText>}
                 </FormControl>
               </Stack>
             </DialogContent>
             <DialogActions>
-              <ButtonApp variant='contained' onClick={onClose}>Cancel</ButtonApp>
-              <ButtonApp variant='outlined' onClick={handleSubmit}>Update</ButtonApp>
+              <Button variant='contained' onClick={handleSubmit}
+              >Update</Button>
             </DialogActions>
           </>
         )}
       </Formik>
     </Dialog>
+
   )
 }
 

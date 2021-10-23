@@ -1,17 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import { LoadingButton } from '@mui/lab'
 
-import { ButtonApp } from '../Button'
 import { userRegister } from '../../store/auth/authSlice'
 import { Container, Form, FormGroup, TitleForm, ErrorMessage, LinkOption, OptionSign, WrappInput } from './El'
 import { checkEmailExist } from '../../helper'
 
 const RegisterForm = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
 
   const schema = yup.object().shape({
     firstName: yup.string()
@@ -53,17 +55,20 @@ const RegisterForm = () => {
       initialValues={initialValues}
       validationSchema={schema}
       onSubmit={(data, actions) => {
+        setIsLoadingButton(true)
         const resolveWithSomeData = new Promise(async (resolve, reject) => {
           dispatch(userRegister(data))
             .unwrap()
             .then((result) => {
               actions.resetForm({ values: initialValues })
               resolve(result.message)
-              return <Redirect to='/login' />
+              setIsLoadingButton(false)
+              history.push('/login')
             })
             .catch((result) => {
               actions.resetForm({ ...data, comfirmPassword: '', password: '' })
               reject(result.message)
+              setIsLoadingButton(false)
             })
         });
         toast.promise(resolveWithSomeData, {
@@ -164,13 +169,14 @@ const RegisterForm = () => {
               {formik.touched.comfirmPassword && formik.errors.comfirmPassword && <ErrorMessage>{formik.errors.comfirmPassword}</ErrorMessage>}
             </FormGroup>
 
-            <ButtonApp
+            <LoadingButton
               variant='contained'
               sx={{ minWidth: '100%' }}
               type='submit'
+              loading={isLoadingButton && isLoadingButton}
             >
               Đăng ký
-            </ButtonApp>
+            </LoadingButton>
             <OptionSign>
               <p>Bạn đã có tài khoản?</p>
               <LinkOption to='/login'>Đăng nhập</LinkOption>

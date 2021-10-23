@@ -8,7 +8,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { styled as styledMUI } from '@mui/material/styles';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
-import { Stack, Divider, Grid, Typography, Container } from '@mui/material'
+import { Stack, Divider, Grid, Typography, Container, Breadcrumbs, Link, Skeleton } from '@mui/material'
 import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation';
 
 import InputQuality from '../components/InputQuality'
@@ -91,14 +91,144 @@ const DetailProduct = (props) => {
     dispatch(addItemCart({ ...product, ...size }))
   }
 
+  const BodyLoading = () => (
+    <>
+      <Container >
+        <Grid container spacing='25px' pb='20px'>
+          <Grid item xs={12} md={4}>
+            <Skeleton
+              height='477px'
+              width='100%'
+              animation='wave'
+              variant="rectangular" />
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Skeleton
+              animation='wave'
+              width='80%'
+              height={40}
+            />
+            <Stack
+              flexDirection='row'
+              gap={1.5}
+            >
+              <Skeleton
+                animation='wave'
+                width='100px'
+              />
+              <Skeleton
+                animation='wave'
+                width='60px'
+              />
+              <Skeleton
+                animation='wave'
+                width='60px'
+              />
+            </Stack>
+            <Box>
+              <Skeleton animation='wave' height={100} />
+            </Box>
+            <Box paddingLeft='20px'>
+              <Stack
+                flexDirection='row'
+                gap={5.5}
+                marginTop='15px'
+              >
+                <Box>
+                  <Skeleton animation='wave' width={100} />
+                </Box>
+                <Stack
+                  flexDirection='column'
+                >
+                  <Skeleton animation='wave' width={120} />
+                  <Skeleton animation='wave' width={140} />
+                  <Skeleton animation='wave' width={140} />
+                  <Skeleton animation='wave' width={140} />
+                </Stack>
+              </Stack>
+              <Stack
+                flexDirection='row'
+                gap={5.5}
+                marginTop='15px'
+              >
+                <Box>
+                  <Skeleton animation='wave' width={100} />
+                </Box>
+                <Stack
+                  flexDirection='row'
+                  flexWrap='wrap'
+                  gap={1}
+                  maxWidth='370px'
+                >
+                  <Skeleton animation='wave' width={70} />
+                  <Skeleton animation='wave' width={70} />
+                  <Skeleton animation='wave' width={70} />
+                  <Skeleton animation='wave' width={70} />
+                  <Skeleton animation='wave' width={70} />
+                  <Skeleton animation='wave' width={70} />
+                  <Skeleton animation='wave' width={70} />
+                </Stack>
+              </Stack>
+              <Stack
+                flexDirection='row'
+                gap={5.5}
+                marginTop='15px'
+              >
+                <Box>
+                  <Skeleton animation='wave' width={100} />
+                </Box>
+                <Stack
+                  flexDirection='row'
+                  flexWrap='wrap'
+                  gap={1}
+                  maxWidth='370px'
+                >
+                  <Skeleton animation='wave' width={140} />
+                </Stack>
+              </Stack>
+              <Stack
+                flexDirection='row'
+                gap={1.5}
+                marginTop='15px'
+              >
+                <Box>
+                  <Skeleton animation='wave' width={100} height={80} />
+                </Box>
+                <Box>
+                  <Skeleton animation='wave' width={140} height={80} />
+                </Box>
+              </Stack>
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </>
+  )
+
   return (
-    <Container>
+    <Container >
+      <Breadcrumbs
+        aria-label="breadcrumb"
+        sx={{ margin: '15px 0', display: ['none', 'none', 'flex', 'flex'] }}
+      >
+        <Link underline="hover" color="inherit" href="/">
+          Home
+        </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          href="/getting-started/installation/"
+        >
+          Prefume
+        </Link>
+        {isLoadding ? <Skeleton animtion='wave' width={388} height={32} /> : <Typography color="text.primary">{product.name}</Typography>}
+      </Breadcrumbs>
       {
-        isLoadding ? 'Loading' :
+        isLoadding ? <BodyLoading /> :
           <Grid container spacing='25px' pb='20px'>
             <Grid item xs={12} md={4}>
               <SliderApp {...settings}>
-                {product.images.map((img, i) =>
+                {product && product.images.map((img, i) =>
 
                   <div className='image-slice' key={i}>
                     <img src={`${apiUrl}/static/${img.fileName}`} alt={img.fileName} />
@@ -298,9 +428,9 @@ const SliderApp = styled(Slider)`
   }
 
   @media (min-width: 320px) and (max-width: 576px) {
-    .slick-dots {
+    /* .slick-dots {
       display: none !important;
-    }
+    } */
 
     .image-slice {
       height: 345px;
@@ -310,7 +440,7 @@ const SliderApp = styled(Slider)`
       margin-top: 15px;
       position: relative;
       bottom: unset;
-    }
+  }
 
   .slick-dots li img{
     width: 100%;
@@ -329,6 +459,7 @@ const SliderApp = styled(Slider)`
     opacity: .5;
     width: 45px;
     height: 45px;
+    background-color: #f5f6fa;
   }
   .slick-dots li.slick-active {
     opacity: 1;

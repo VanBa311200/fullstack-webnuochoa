@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Container, Avatar, Box, Stack, AppBar, Divider, IconButton } from '@mui/material';
+import { Container, Box, Stack, AppBar, Divider, IconButton } from '@mui/material';
 import { FaTwitter, FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa'
 import { AiOutlineSearch } from 'react-icons/ai'
 import DropDown from './DropDown'
@@ -52,7 +51,7 @@ const NavbarMenu = () => {
 
   return (
     <>
-      <AppBar>
+      <AppBar position='sticky'>
         <Box sx={{ backgroundColor: 'rgb(46, 46, 46)', display: ['none', 'none', 'none', 'block'] }}>
           <Container>
             <Stack
@@ -112,9 +111,7 @@ const NavbarMenu = () => {
                   <AiOutlineSearch />
                 </IconButton>
                 <ShoppingIcon />
-                <Avatar sx={{ display: ['none', 'none', 'flex', 'flex'] }}>
-                  <AccountCircleIcon fontSize='30px' />
-                </Avatar>
+
               </Stack>
             </Box>
             <SideBarMobile />

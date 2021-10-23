@@ -7,22 +7,130 @@ const verifyToken = require('../middleware/auth')
 const User = require('../models/User')
 
 
+// @route get api/auth/updateAddress
+// @desc update phone
+// @access Private
+router.post('/updateAddress', verifyToken, async (req, res) => {
+  const {
+    addressDetail,
+    city,
+    district,
+    ward } = req.body
+
+  const address = {
+    addressDetail: addressDetail.trim(),
+    city: city.trim(),
+    district: district.trim(),
+    ward: ward.trim()
+  }
+
+  if (!address || !city || !district || !ward)
+    return res.status(400).json({ success: false, message: 'Please fill form' })
+
+  try {
+    let user = await User.findOneAndUpdate({ _id: req.userId }, { address }, { new: true })
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    return res.status(200).json({ success: true, message: 'Update your address successfully', user })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error!' })
+  }
+})
+
+// @route get api/auth/updatePhone
+// @desc update phone
+// @access Private
+router.post('/updatePhone', verifyToken, async (req, res) => {
+  const { phone } = req.body
+
+  if (!phone)
+    return res.status(400).json({ success: false, message: 'Please fill form' })
+
+  try {
+
+    let user = await User.findOneAndUpdate({ _id: req.userId }, { phone: phone.trim() }, { new: true })
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    return res.status(200).json({ success: true, message: 'Update your phone successfully', user })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error!' })
+  }
+})
+
+// @route get api/auth/updatePassword
+// @desc update password
+// @access Private
+router.post('/updatePassword', verifyToken, async (req, res) => {
+  const { currentPassword, password, comfirmPassword } = req.body
+
+  if (!password || !comfirmPassword, !currentPassword)
+    return res.status(400).json({ success: false, message: 'Please fill form' })
+
+  try {
+
+    let user = await User.findOne({ _id: req.userId })
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+
+    if (await argon2.verify(user.password, currentPassword)) {
+      const hashPass = await argon2.hash(comfirmPassword)
+      let user = await User.findOneAndUpdate({ _id: req.userId }, { password: hashPass }, { new: true })
+      return res.status(200).json({ success: true, message: 'Update password successfully', user })
+    }
+
+    return res.status(400).json({ success: false, message: 'Password hiện tại không chính xác' })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error!' })
+  }
+})
+
+// @route get api/auth/updateEmail
+// @desc update email
+// @access Private
+router.post('/updateEmail', verifyToken, async (req, res) => {
+  const { email } = req.body
+
+  if (!email)
+    return res.status(400).json({ success: false, message: 'Please fill form' })
+
+  try {
+    const user = await User.findOneAndUpdate({ _id: req.userId }, { email: email.trim() }, { new: true })
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' })
+    }
+    res.status(200).json({ success: true, message: 'Update successfully', user })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ success: false, message: 'Internal Server Error!' })
+  }
+})
 
 // @route get api/auth/updateName
 // @desc update name
 // @access Private
-router.get('/', verifyToken, async (req, res) => {
+router.post('/updateName', verifyToken, async (req, res) => {
   const { firstName, lastName } = req.body
 
   if (!firstName || !lastName)
     return res.status(400).json({ success: false, message: 'Please fill form' })
 
   try {
-    const user = await User.findOneAndUpdate({ _id: req.userId }, { fullName: `${firstName} ${lastName}` })
+    const user = await User.findOneAndUpdate({ _id: req.userId }, { fullname: `${lastName.trim()} ${firstName.trim()}` }, { new: true })
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' })
     }
-    res.status(200).json({ success: true, message: 'Success', user })
+    res.status(200).json({ success: true, message: 'Update name successfully', user })
   } catch (error) {
     console.log(error)
     res.status(500).json({ success: false, message: 'Internal Server Error!' })
@@ -71,9 +179,9 @@ router.post('/register', async (req, res) => {
     if (password === comfirmPassword) {
       const hashedPassword = await argon2.hash(comfirmPassword)
       const newUser = new User({
-        email,
+        email: email.trim(),
         password: hashedPassword,
-        fullname: `${lastName} ${firstName}`,
+        fullname: `${lastName.trim()} ${firstName.trim()}`,
       })
       await newUser.save();
 
@@ -98,7 +206,7 @@ router.post('/login', async (req, res) => {
 
   try {
     // check for existing user
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email: email.trim() })
     if (!user)
       return res.status(400).json({ success: false, message: 'Incorrect email or password' })
 
@@ -124,7 +232,7 @@ router.post('/checkUserExist', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Please fill form' })
 
   try {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email: email.trim() })
 
     if (user) {
       // console.log('User has exist')

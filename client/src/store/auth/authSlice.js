@@ -58,6 +58,52 @@ export const updateName = createAsyncThunk('auth/updateName',
   }
 )
 
+// Update email
+export const updateEmail = createAsyncThunk('auth/updateEmail',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${apiUrl}/api/auth/updateEmail`, formData)
+      return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
+// Update password
+export const updatePassword = createAsyncThunk('auth/updatePassword',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${apiUrl}/api/auth/updatePassword`, formData)
+      return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+// Update password
+export const updatePhone = createAsyncThunk('auth/updatePhone',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${apiUrl}/api/auth/updatePhone`, formData)
+      return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+// Update password
+export const updateAddress = createAsyncThunk('auth/updateAddress',
+  async (formData, { rejectWithValue }) => {
+    try {
+      const res = await axios.post(`${apiUrl}/api/auth/updateAddress`, formData)
+      return res.data
+    } catch (error) {
+      return rejectWithValue(error.response.data)
+    }
+  }
+)
+
 
 const initialState = {
   authLoading: true,
@@ -81,20 +127,17 @@ const authSlice = createSlice({
       state.user = action.payload.user
       state.authLoading = false
       state.isAuthenticated = true
-      // console.log(state)
     },
     [setAuth.rejected]: (state, action) => {
       localStorage.removeItem(LOCAL_STORAGE_TOKEN_AUTH)
       setAuthToken(null)
       state.authLoading = false
-      // console.log(action.payload.message)
     },
     [userLogin.fulfilled]: (state, action) => {
       setLocalStorage(LOCAL_STORAGE_TOKEN_AUTH, action.payload.accessToken)
-      // console.log('Login success: ', action.payload.accessToken)
     },
     [userLogin.rejected]: (state, action) => {
-      // console.log(action.payload.message)
+      state = initialState
     },
     [userRegister.fulfilled]: (state, action) => {
       // console.log(action.payload.message)
@@ -103,10 +146,19 @@ const authSlice = createSlice({
       // console.log(action.payload.message)
     },
     [updateName.fulfilled]: (state, action) => {
-      state.user.fullName = action.fullName
+      state.user.fullname = action.payload.user.fullname
     },
-    [updateName.rejected]: (state, action) => { },
-
+    [updateName.rejected]: (state, action) => {
+    },
+    [updateEmail.fulfilled]: (state, action) => {
+      state.user.email = action.payload.user.email
+    },
+    [updatePhone.fulfilled]: (state, action) => {
+      state.user.phone = action.payload.user.phone
+    },
+    [updateAddress.fulfilled]: (state, action) => {
+      state.user.address = action.payload.user.address
+    }
   }
 })
 

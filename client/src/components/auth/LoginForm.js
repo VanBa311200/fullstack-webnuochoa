@@ -5,17 +5,19 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { userLogin, setAuth } from '../../store/auth/authSlice'
+import { LoadingButton } from '@mui/lab'
+
 
 import { Container, Form, FormGroup, IconEye, TitleForm, ErrorMessage, OptionForgot, LinkOption, OptionSign, WrappInput } from './El'
 import { useHistory } from 'react-router'
-import { ButtonApp } from '../Button'
 
 
 const LoginForm = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const [isHide, setIsHide] = useState(true)
-  // const { loginUser } = useContext(AuthContext)
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
+
   const initialValues = {
     email: '',
     password: ''
@@ -37,18 +39,21 @@ const LoginForm = () => {
     ,
     validationSchema: schema,
     onSubmit: (data, actions) => {
+      setIsLoadingButton(!isLoadingButton)
       const valuePromise = new Promise(async (resolve, reject) => {
         await dispatch(userLogin(data))
           .unwrap()
           .then((resolved) => {
             actions.resetForm({ values: initialValues })
             resolve(resolved.message)
+            setIsLoadingButton(!isLoadingButton)
             history.push('/')
             dispatch(setAuth())
           })
           .catch((rejected) => {
             actions.resetForm({ values: { ...data, password: '' } })
             reject(rejected.message)
+            setIsLoadingButton(!isLoadingButton)
           })
       })
       toast.promise(valuePromise, {
@@ -113,7 +118,7 @@ const LoginForm = () => {
         <OptionForgot>
           Quên <LinkOption to='/'>Tài khoản/Mật khẩu?</LinkOption>
         </OptionForgot>
-        <ButtonApp variant='contained' sx={{ minWidth: '100%' }} type='submit'>Đăng nhập</ButtonApp>
+        <LoadingButton loading={isLoadingButton && isLoadingButton} variant='contained' sx={{ minWidth: '100%' }} type='submit'>Đăng nhập</LoadingButton>
         <OptionSign>
           <p>Bạn chưa có tài khoản?</p>
           <LinkOption to='/register'>Đăng ký</LinkOption>
