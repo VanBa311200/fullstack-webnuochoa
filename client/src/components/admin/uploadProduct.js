@@ -6,7 +6,7 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 
 import { ErrorMessage } from '../auth/El'
-import { checkTypeImage } from '../../helper/index'
+import { checkTypeListImage } from '../../helper/index'
 
 const UploadProduct = () => {
   const [brands, setBrands] = useState([])
@@ -54,7 +54,7 @@ const UploadProduct = () => {
             return false
           }
           else {
-            return checkTypeImage(value)
+            return checkTypeListImage(value)
           }
         }),
     gender: yup.string()
@@ -62,23 +62,23 @@ const UploadProduct = () => {
     // .oneOf(['0', '1'])
   })
 
-  const formik = useFormik({
-    initialValues: {
-      brand: '',
-      name: '',
-      price: '',
-      percentSale: '',
-      priceSale: '',
-      ratingNumber: '',
-      isNewProduct: '',
-      gender: '', // 0 men, 1 laydy 
-      description: '',
-      images: ''
-    },
-    validationSchema: schema,
-    onSubmit: async (data) => {
+  const initialValues = {
+    brand: '',
+    name: '',
+    price: '',
+    percentSale: '',
+    priceSale: '',
+    ratingNumber: '',
+    isNewProduct: false,
+    gender: 0, // 0 men, 1 laydy 
+    description: '',
+    images: ''
+  }
 
-      console.log(data)
+  const formik = useFormik({
+    initialValues,
+    validationSchema: schema,
+    onSubmit: async (data, actions) => {
       const dataForm = new FormData()
       dataForm.append('brand', data.brand)
       dataForm.append('name', data.name)
@@ -89,19 +89,20 @@ const UploadProduct = () => {
       dataForm.append('description', data.description)
       dataForm.append('isNewProduct', data.isNewProduct)
       dataForm.append('gender', data.gender)
-      console.log(Object.values(data.images))
       Object.values(data.images).forEach((e) => {
         dataForm.append('images', e)
       })
       try {
         const res = await axios.post(`${apiUrl}/api/product`, dataForm)
-        if (res.data.success)
-          console.log(res.data.message, res.data.product)
+        if (res.data.success) {
+          console.log(res.data)
+          actions.resetForm({ values: initialValues })
+        }
+
         else console.log(res.data.message)
       } catch (error) {
         console.log(error)
       }
-
     }
   })
 
@@ -137,7 +138,6 @@ const UploadProduct = () => {
             placeholder='Enter name...'
             value={formik.values.name}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
           >
           </Form.Control>
           {
@@ -155,7 +155,6 @@ const UploadProduct = () => {
             placeholder='Enter price...'
             value={formik.values.price}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
           >
           </Form.Control>
           {
@@ -172,7 +171,6 @@ const UploadProduct = () => {
             name='percentSale'
             placeholder='Enter percent...'
             value={formik.values.percentSale}
-            onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           >
           </Form.Control>
@@ -196,7 +194,6 @@ const UploadProduct = () => {
                 :
                 formik.values.price
             }
-            onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           >
           </Form.Control>
@@ -208,7 +205,6 @@ const UploadProduct = () => {
             name='ratingNumber'
             placeholder='Number rating'
             value={formik.values.ratingNumber}
-            onBlur={formik.handleBlur}
             onChange={formik.handleChange}
           >
           </Form.Control>
@@ -227,6 +223,7 @@ const UploadProduct = () => {
             label='new product'
             value={formik.values.isNewProduct}
             onChange={formik.handleChange}
+            disabled
           >
           </Form.Check>
         </Form.Group>
@@ -268,7 +265,6 @@ const UploadProduct = () => {
             style={{ resize: 'none' }}
             value={formik.values.description}
             onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
           >
           </Form.Control>
           {

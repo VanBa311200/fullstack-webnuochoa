@@ -1,10 +1,13 @@
 import { Grid, Box, Button } from '@mui/material'
 import React from 'react'
 import { BsArrowRight } from 'react-icons/bs'
+import { useHistory } from 'react-router'
 
 import { WapperContent, ColContent } from './ElSectionPR'
 
 const ItemSection = ({ data }) => {
+  const history = useHistory()
+
   return (
     <WapperContent>
       <Grid container>
@@ -21,12 +24,16 @@ const ItemSection = ({ data }) => {
             <p>
               {data.paragrap}
             </p>
-            <Button
-              variant="outlined"
-              sx={{ borderRadius: 'unset', maxWidth: '150px' }}
-              endIcon={<BsArrowRight />} >
-              Xem thêm
-            </Button>
+            <Box component='aside'>
+              <Button
+                variant="outlined"
+                sx={{ borderRadius: 'unset' }}
+                endIcon={<BsArrowRight />}
+                onClick={() => history.push(data.link)}
+              >
+                Xem thêm
+              </Button>
+            </Box>
           </Box>
         </ColContent>
       </Grid>

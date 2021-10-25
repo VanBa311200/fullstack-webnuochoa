@@ -13,22 +13,25 @@ export const toVND = (int) => {
 }
 
 export const checkTypeImage = (object) => {
-  const arr = ['image/jpg', 'image/jpeg', 'image/png']
+  const arr = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
-  // const arrImg = Object.values(object)
-  // console.log(arrImg)
 
-  // let result = false
-
-  // arrImg.forEach(e => {
-  //   // console.log(arr.includes(e.type))
-  //   if (arr.includes(e.type)) {
-  //     result = true
-  //     return false
-  //   }
-
-  // });
   return arr.includes(object)
+}
+
+export const checkTypeListImage = (object) => {
+  const arr = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  const arrImg = Object.values(object)
+
+  let result = false
+
+  arrImg.forEach(e => {
+    if (arr.includes(e.type)) {
+      result = true
+      return false
+    }
+  });
+  return result
 }
 
 export const checkEmailExist = async (email) => {

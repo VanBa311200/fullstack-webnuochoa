@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import { toast } from 'react-toastify'
@@ -13,6 +13,7 @@ import { checkEmailExist } from '../../helper'
 const RegisterForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  let idToast = useRef(null)
   const [isLoadingButton, setIsLoadingButton] = useState(false)
 
   const schema = yup.object().shape({
@@ -54,36 +55,23 @@ const RegisterForm = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={schema}
-      onSubmit={(data, actions) => {
+      onSubmit={async (data, actions) => {
         setIsLoadingButton(true)
-        const resolveWithSomeData = new Promise(async (resolve, reject) => {
-          dispatch(userRegister(data))
-            .unwrap()
-            .then((result) => {
-              actions.resetForm({ values: initialValues })
-              resolve(result.message)
-              setIsLoadingButton(false)
-              history.push('/login')
-            })
-            .catch((result) => {
-              actions.resetForm({ ...data, comfirmPassword: '', password: '' })
-              reject(result.message)
-              setIsLoadingButton(false)
-            })
-        });
-        toast.promise(resolveWithSomeData, {
-          pending: 'Loading...!',
-          success: {
-            render({ data }) {
-              return data
-            }
-          },
-          error: {
-            render({ data }) {
-              return data
-            }
-          },
-        })
+        idToast = toast.loading('Loading...')
+        await dispatch(userRegister(data))
+          .unwrap()
+          .then(({ message }) => {
+            actions.resetForm({ values: initialValues })
+            toast.update(idToast, { render: message, type: 'success', isLoading: false, autoClose: 3000, closeOnClick: false })
+            setIsLoadingButton(false)
+            history.push('/login')
+          })
+          .catch(({ message }) => {
+            actions.resetForm({ ...data, comfirmPassword: '', password: '' })
+            toast.update(idToast, { render: message, type: 'success', isLoading: false, autoClose: 3000, closeOnClick: false })
+            setIsLoadingButton(false)
+          })
+
       }}
     >
       {formik => (

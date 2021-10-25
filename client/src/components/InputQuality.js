@@ -22,11 +22,16 @@ const InputQuality = ({ onClick, value }) => {
 
   return (
     <Container>
-      <Wrap onClick={hadleOnClickMinus} sx={{ minWidth: '32px' }}>
+      <Wrap onClick={hadleOnClickMinus} sx={{ minWidth: '32px' }} style={{}}   >
         <IconMinus />
       </Wrap>
-      <input type="text" autoComplete='off' value={value || input.current} onChange={(e) => input.current = e.target.value} />
-      <Wrap onClick={hadleOnClickPlus} sx={{ minWidth: '32px' }}>
+      <input
+        type="text"
+        autoComplete='off'
+        value={value || input.current}
+        onChange={(e) => input.current = e.target.value}
+      />
+      <Wrap onClick={hadleOnClickPlus} sx={{ minWidth: '32px' }} >
         <IconPlus />
       </Wrap>
     </Container>

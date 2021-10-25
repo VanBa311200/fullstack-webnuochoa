@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import * as yup from 'yup'
 import { useFormik } from 'formik'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
@@ -15,6 +15,7 @@ import { useHistory } from 'react-router'
 const LoginForm = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+  let idToast = useRef(null)
   const [isHide, setIsHide] = useState(true)
   const [isLoadingButton, setIsLoadingButton] = useState(false)
 
@@ -35,40 +36,25 @@ const LoginForm = () => {
   })
 
   const formik = useFormik({
-    initialValues
-    ,
+    initialValues,
     validationSchema: schema,
-    onSubmit: (data, actions) => {
+    onSubmit: async (data, actions) => {
       setIsLoadingButton(!isLoadingButton)
-      const valuePromise = new Promise(async (resolve, reject) => {
-        await dispatch(userLogin(data))
-          .unwrap()
-          .then((resolved) => {
-            actions.resetForm({ values: initialValues })
-            resolve(resolved.message)
-            setIsLoadingButton(!isLoadingButton)
-            history.push('/')
-            dispatch(setAuth())
-          })
-          .catch((rejected) => {
-            actions.resetForm({ values: { ...data, password: '' } })
-            reject(rejected.message)
-            setIsLoadingButton(!isLoadingButton)
-          })
-      })
-      toast.promise(valuePromise, {
-        pending: 'Loading...!',
-        success: {
-          render({ data }) {
-            return data
-          }
-        },
-        error: {
-          render({ data }) {
-            return data
-          }
-        }
-      })
+      idToast = toast.loading('Loading...')
+      await dispatch(userLogin(data))
+        .unwrap()
+        .then(({ message }) => {
+          actions.resetForm({ values: initialValues })
+          toast.update(idToast, { render: message, type: 'success', isLoading: false, autoClose: 3000, closeOnClick: false })
+          setIsLoadingButton(!isLoadingButton)
+          history.push('/')
+          dispatch(setAuth())
+        })
+        .catch(({ message }) => {
+          actions.resetForm({ values: { ...data, password: '' } })
+          toast.update(idToast, { render: message, type: 'success', isLoading: false, autoClose: 3000, closeOnClick: false })
+          setIsLoadingButton(!isLoadingButton)
+        })
     }
   })
 
@@ -116,7 +102,7 @@ const LoginForm = () => {
           {formik.touched.password && formik.errors.password && <ErrorMessage>{formik.errors.password}</ErrorMessage>}
         </FormGroup>
         <OptionForgot>
-          Quên <LinkOption to='/'>Tài khoản/Mật khẩu?</LinkOption>
+          Quên <LinkOption to='#'>Tài khoản/Mật khẩu?</LinkOption>
         </OptionForgot>
         <LoadingButton loading={isLoadingButton && isLoadingButton} variant='contained' sx={{ minWidth: '100%' }} type='submit'>Đăng nhập</LoadingButton>
         <OptionSign>

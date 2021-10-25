@@ -1,6 +1,7 @@
 import axios from 'axios'
 import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
+import { Link as LinkApp, useHistory } from 'react-router-dom'
 import Slider from "react-slick"
 import { Box } from '@mui/system'
 import { FaShippingFast } from 'react-icons/fa'
@@ -19,44 +20,26 @@ import { ButtonApp } from '../components/Button'
 import { ButtonVariation } from '../components/ButtonVariation'
 import { useDispatch } from 'react-redux'
 import { addItemCart } from '../store/cart/cartSlice'
+import { toast } from 'react-toastify'
+
+
 
 const DetailProduct = (props) => {
   const productId = props.match.params.productId;
   const dispatch = useDispatch()
+  const history = useHistory()
   const [producState, setProductState] = useState({
     isLoadding: true,
     product: {},
+    state: 'success',
   });
   const initialState = {
     value: '30ml',
     quality: 1
   }
   const [size, setSize] = useState(initialState);
-  const { isLoadding, product } = producState;
+  const { isLoadding, product, state } = producState;
 
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const res = await axios.get(`${apiUrl}/api/product/${productId}`)
-
-        if (res.data.success)
-          setProductState({
-            isLoadding: false,
-            product: res.data.product
-          })
-      } catch (error) {
-        console.error('GET_PRODUCT_FAILD')
-      }
-    }
-    getProduct();
-
-    return () => {
-      setProductState({
-        isLoadding: true,
-        product: {}
-      })
-    }
-  }, [productId])
 
   const settings = {
     customPaging(i) {
@@ -71,24 +54,6 @@ const DetailProduct = (props) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-  }
-
-  const handleOnClick = (value) => {
-    setSize({
-      ...size,
-      quality: value
-    })
-  }
-
-  const handleSetSize = (e) => {
-    setSize({
-      ...size,
-      value: e.target.innerText
-    })
-  }
-
-  const handleAddItem = () => {
-    dispatch(addItemCart({ ...product, ...size }))
   }
 
   const BodyLoading = () => (
@@ -205,204 +170,311 @@ const DetailProduct = (props) => {
     </>
   )
 
-  return (
-    <Container >
-      <Breadcrumbs
-        aria-label="breadcrumb"
-        sx={{ margin: '15px 0', display: ['none', 'none', 'flex', 'flex'] }}
-      >
-        <Link underline="hover" color="inherit" href="/">
-          Home
-        </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/getting-started/installation/"
-        >
-          Prefume
-        </Link>
-        {isLoadding ? <Skeleton animtion='wave' width={388} height={32} /> : <Typography color="text.primary">{product.name}</Typography>}
-      </Breadcrumbs>
-      {
-        isLoadding ? <BodyLoading /> :
-          <Grid container spacing='25px' pb='20px'>
-            <Grid item xs={12} md={4}>
-              <SliderApp {...settings}>
-                {product && product.images.map((img, i) =>
+  const handleOnClick = (value) => {
+    setSize({
+      ...size,
+      quality: value
+    })
+  }
 
-                  <div className='image-slice' key={i}>
-                    <img src={`${apiUrl}/static/${img.fileName}`} alt={img.fileName} />
-                  </div>
-                )}
-              </SliderApp>
-            </Grid>
-            <Grid item xs={12} md={8}>
-              <Box>
-                <Stack>
-                  <NameProduct>{product.name}</NameProduct>
-                </Stack>
-                <Stack
-                  alignItems='center'
-                  direction='row'
-                  gap='10px'
-                >
-                  <RatingStart number={product.rating_number} />
-                  <Divider orientation="vertical" flexItem variant='middle' />
-                  <Stack spacing={0.5}
-                    direction='row'
-                    alignItems='center'>
-                    <TextMain>0</TextMain>
-                    <TextSub variant='subtitle1'>Đánh giá</TextSub>
-                  </Stack>
-                  <Divider orientation="vertical" flexItem variant='middle' />
-                  <Stack
-                    spacing={0.5}
-                    direction='row'
-                    alignItems='center'>
-                    <TextMain>12</TextMain>
-                    <TextSub variant='subtitle1'>Đã bán</TextSub>
-                  </Stack>
-                </Stack>
+  const handleSetSize = (e) => {
+    setSize({
+      ...size,
+      value: e.target.innerText
+    })
+  }
 
-                <Stack
-                  gap='10px'
-                  direction='row'
-                  alignItems='center'
-                  p='15px 20px'
-                  bgcolor='#f5f5f5'
-                  mt='10px'
-                  flexWrap='wrap'
-                >
-                  <PriceLineThought variant='subtitle2'>{toVND(product.price)}</PriceLineThought>
-                  <Stack
-                    spacing={2}
-                    direction='row'
-                    alignItems='center'
-                  >
-                    <PriceSale>{toVND(product.price_sale)}</PriceSale>
-                    <TagPercentSale>{`${product.percent_sale}% giảm`}</TagPercentSale>
-                  </Stack>
-                </Stack>
-                <Box
-                  pl='15px'
-                  mt='25px'
-                >
-                  <Stack
-                    direction="row"
-                  >
-                    <Typography variant='subtitle1' minWidth='110px'>
-                      Vận chuyển
-                    </Typography>
-                    <Box >
+  const handleAddItem = () => {
+    dispatch(addItemCart({ ...product, ...size }))
+    toast.success('Bạn đã thêm sản phẩm vào giỏ hàng')
+  }
+
+  // const findProductsFaild = (<>
+  //   <Container>
+  //     <Box height='70vh' width='100%'>
+  //       <Typography variant='5'>Không tìm kiếm thấy kết quả mong muốn</Typography>
+  //     </Box>
+  //   </Container>
+  // </>
+  // )
+
+
+  let body = (
+    <>
+      {state === 'faild' ? history.push('/page404') :
+        <Container sx={{ minHeight: '60vh' }}>
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            sx={{
+              padding: '15px 0',
+              display: ['none', 'none', 'flex', 'flex']
+            }}
+          >
+            <Link
+              underline="hover"
+              color="inherit"
+              component={LinkApp}
+              to='/'
+            >
+              Home
+            </Link>
+            <Link
+              underline="hover"
+              color="inherit"
+              component={LinkApp}
+              to='/perfume'
+            >
+              Prefume
+            </Link>
+            {isLoadding ? <Skeleton
+              animtion='wave'
+              width={388}
+              height={32}
+            /> : <Typography color="text.primary">{product.name}</Typography>}
+          </Breadcrumbs>
+          {
+            isLoadding ? <BodyLoading /> :
+              <Grid
+                container
+                spacing='25px'
+                pb='20px'
+              >
+                <Grid item xs={12} md={4}>
+                  <SliderApp {...settings}>
+                    {product && product.images.map((img, i) =>
+
+                      <div className='image-slice' key={i}>
+                        <img src={`${apiUrl}/static/${img.fileName}`} alt={img.fileName} />
+                      </div>
+                    )}
+                  </SliderApp>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  <Box>
+                    <Stack>
+                      <NameProduct>{product.name}</NameProduct>
+                    </Stack>
+                    <Stack
+                      alignItems='center'
+                      direction='row'
+                      gap='10px'
+                    >
+                      <RatingStart number={product.rating_number} />
+                      <Divider orientation="vertical" flexItem variant='middle' />
                       <Stack
-                        direction="row"
-                        gap='5px'
+                        spacing={0.5}
+                        direction='row'
                         alignItems='center'
                       >
-                        <FaShippingFast style={{ color: 'var(--color-primary)' }} />
-                        <Typography sx={{ fontSize: '14px' }}>Miễn phí vận chuyển</Typography>
+                        <TextMain>32</TextMain>
+                        <TextSub variant='subtitle1'>Đánh giá</TextSub>
                       </Stack>
-                      <Stack>
-                        <Typography variant='subtitle1' pl='21px'>Miễn phí vận chuyển cho đơn hàng 3 sản phẩm</Typography>
+                      <Divider orientation="vertical" flexItem variant='middle' />
+                      <Stack
+                        spacing={0.5}
+                        direction='row'
+                        alignItems='center'>
+                        <TextMain>69</TextMain>
+                        <TextSub variant='subtitle1'>Đã bán</TextSub>
                       </Stack>
-                    </Box>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    alignItems='center'
-                    my={'20px'}
-                  >
-                    <Typography variant='subtitle1' minWidth='110px'>
-                      Variants
-                    </Typography>
-                    <Box >
+                    </Stack>
+
+                    <Stack
+                      gap='10px'
+                      direction='row'
+                      alignItems='center'
+                      p='15px 20px'
+                      bgcolor='#f5f5f5'
+                      mt='10px'
+                      flexWrap='wrap'
+                    >
+                      {product.percent_sale && <PriceLineThought variant='subtitle2'>{toVND(product.price)}</PriceLineThought>}
+                      <Stack
+                        spacing={2}
+                        direction='row'
+                        alignItems='center'
+                      >
+                        <PriceSale>{toVND(product.price_sale)}</PriceSale>
+                        {product.percent_sale && <TagPercentSale>{`${product.percent_sale}% giảm`}</TagPercentSale>}
+                      </Stack>
+                    </Stack>
+                    <Box
+                      pl='15px'
+                      mt='25px'
+                    >
                       <Stack
                         direction="row"
-                        gap={1}
-                        alignItems='center'
-                        flexWrap='wrap'
                       >
-                        <ButtonVariation className={size.value === '30ml' ? 'active' : ''} onClick={handleSetSize} >30ml</ButtonVariation>
-                        <ButtonVariation className={size.value === '60ml' ? 'active' : ''} onClick={handleSetSize} >60ml</ButtonVariation>
-                        <ButtonVariation className={size.value === '100ml' ? 'active' : ''} onClick={handleSetSize} >100ml</ButtonVariation>
-                        <ButtonVariation className={size.value === '150ml' ? 'active' : ''} onClick={handleSetSize} >150ml</ButtonVariation>
+                        <Typography variant='subtitle1' minWidth='110px'>
+                          Vận chuyển
+                        </Typography>
+                        <Box >
+                          <Stack
+                            direction="row"
+                            gap='5px'
+                            alignItems='center'
+                          >
+                            <FaShippingFast style={{ color: 'var(--color-primary)' }} />
+                            <Typography sx={{ fontSize: '14px' }}>Miễn phí vận chuyển</Typography>
+                          </Stack>
+                          <Stack>
+                            <Typography variant='subtitle1' pl='21px'>
+                              Miễn phí vận chuyển cho đơn hàng 3 sản phẩm
+                            </Typography>
+                          </Stack>
+                        </Box>
+                      </Stack>
+                      <Stack
+                        direction="row"
+                        alignItems='center'
+                        my={'20px'}
+                      >
+                        <Typography variant='subtitle1' minWidth='110px'>
+                          Variants
+                        </Typography>
+                        <Box >
+                          <Stack
+                            direction="row"
+                            gap={1}
+                            alignItems='center'
+                            flexWrap='wrap'
+                          >
+                            <ButtonVariation
+                              className={size.value === '30ml' ? 'active' : ''}
+                              onClick={handleSetSize}
+                            >
+                              30ml
+                            </ButtonVariation>
+                            <ButtonVariation
+                              className={size.value === '60ml' ? 'active' : ''}
+                              onClick={handleSetSize}
+                            >
+                              60ml
+                            </ButtonVariation>
+                            <ButtonVariation
+                              className={size.value === '100ml' ? 'active' : ''}
+                              onClick={handleSetSize}
+                            >
+                              100ml
+                            </ButtonVariation>
+                            <ButtonVariation
+                              className={size.value === '150ml' ? 'active' : ''}
+                              onClick={handleSetSize}
+                            >
+                              150ml
+                            </ButtonVariation>
+                          </Stack>
+                        </Box>
+                      </Stack>
+                      <Stack
+                        direction="row"
+                        alignItems='center'
+                        my={'20px'}
+                      >
+                        <Typography variant='subtitle1' minWidth='110px'>
+                          Số lượng
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                          <InputQuality onClick={handleOnClick} />
+                        </Box>
+                      </Stack>
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        flexDirection="flexStart"
+                        spacing={2}
+                      >
+                        <ButtonApp
+                          color='primary'
+                          variant='outlined'
+                          startIcon={<AddShoppingCartIcon sx={{ color: 'primary.main' }} />}
+                          onClick={handleAddItem}
+                        >
+                          Thêm vào giỏ hàng
+                        </ButtonApp>
+                        <ButtonApp
+                          color='primary'
+                          variant='contained'
+                          onClick={handleAddItem}
+                        >Mua ngay</ButtonApp>
                       </Stack>
                     </Box>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    alignItems='center'
-                    my={'20px'}
-                  >
-                    <Typography variant='subtitle1' minWidth='110px'>
-                      Số lượng
-                    </Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                      <InputQuality onClick={handleOnClick} />
+                    <Box mt='25px'>
+                      <Divider />
+                      <Stack
+                        flexDirection='row'
+                        justifyContent='space-evenly'
+                        gap={1.5}
+                        p='15px'
+                      >
+                        <Stack
+                          flexDirection='row'
+                          alignItems='center'
+                          gap='5px'
+                        >
+                          <ReplyIcon color='primary' sx={{ fontSize: 20, color: 'primary.main' }} />
+                          <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
+                            7 ngày hoàn trả
+                          </Typography>
+                        </Stack>
+                        <Stack
+                          flexDirection='row'
+                          alignItems='center'
+                          gap='5px'
+                        >
+                          <VerifiedUserIcon sx={{ fontSize: 20, color: 'primary.main' }} />
+                          <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
+                            Hàng chính hãng 100%
+                          </Typography>
+                        </Stack>
+                        <Stack
+                          flexDirection='row'
+                          alignItems='center'
+                          gap='5px'
+                        >
+                          <EmojiTransportationIcon color='primary' sx={{ fontSize: 20, color: 'primary.main' }} />
+                          <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
+                            Miễn phí vận chuyển
+                          </Typography>
+                        </Stack>
+                      </Stack>
                     </Box>
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    flexDirection="flexStart"
-                    spacing={2}
-                  >
-                    <ButtonApp
-                      color='primary'
-                      variant='outlined'
-                      startIcon={<AddShoppingCartIcon sx={{ color: 'primary.main' }} />}
-                      onClick={handleAddItem}
-                    >
-                      Thêm vào giỏ hàng
-                    </ButtonApp>
-                    <ButtonApp color='primary' variant='contained'>Mua ngay</ButtonApp>
-                  </Stack>
-                </Box>
-                <Box mt='25px'>
-                  <Divider />
-                  <Stack
-                    flexDirection='row'
-                    justifyContent='space-evenly'
-                    gap={1.5}
-                    p='15px'
-                  >
-                    <Stack
-                      flexDirection='row'
-                      alignItems='center'
-                      gap='5px'
-                    >
-                      <ReplyIcon color='primary' sx={{ fontSize: 20, color: 'primary.main' }} />
-                      <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
-                        7 ngày hoàn trả
-                      </Typography>
-                    </Stack>
-                    <Stack
-                      flexDirection='row'
-                      alignItems='center'
-                      gap='5px'
-                    >
-                      <VerifiedUserIcon sx={{ fontSize: 20, color: 'primary.main' }} />
-                      <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
-                        Hàng chính hãng 100%
-                      </Typography>
-                    </Stack>
-                    <Stack
-                      flexDirection='row'
-                      alignItems='center'
-                      gap='5px'
-                    >
-                      <EmojiTransportationIcon color='primary' sx={{ fontSize: 20, color: 'primary.main' }} />
-                      <Typography sx={{ fontSize: '14px', maxWidth: '110px' }}>
-                        Miễn phí vận chuyển
-                      </Typography>
-                    </Stack>
-                  </Stack>
-                </Box>
-              </Box>
-            </Grid>
-          </Grid>
+                  </Box>
+                </Grid>
+              </Grid>
+          }
+        </Container >
       }
-    </Container >
+    </>
+  )
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await axios.get(`${apiUrl}/api/product/${productId}`)
+
+        if (res.data.success)
+          setProductState({
+            state: 'success',
+            isLoadding: false,
+            product: res.data.product
+          })
+      } catch (error) {
+        setProductState({
+          product: {},
+          isLoadding: false,
+          state: 'faild'
+        })
+      }
+    }
+    getProduct();
+  }, [productId])
+
+
+  return (
+    <>
+      {body}
+    </>
   )
 }
 

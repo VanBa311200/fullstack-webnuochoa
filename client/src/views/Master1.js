@@ -6,7 +6,7 @@ import PageLoadingProsecc from '../components/PageLoadingProsecc'
 import { useSelector } from 'react-redux'
 import { selectAuth } from '../store/auth/authSlice'
 
-const Master1 = ({ children }) => {
+const Master1 = (props) => {
   const { authLoading } = useSelector(selectAuth)
 
 
@@ -16,8 +16,8 @@ const Master1 = ({ children }) => {
         authLoading ?
           <PageLoadingProsecc /> :
           <>
-            <NavbarMenu />
-            {children}
+            <NavbarMenu {...props} />
+            {props.children}
             <Footer />
           </>
       }

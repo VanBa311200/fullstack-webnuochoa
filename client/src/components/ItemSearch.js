@@ -7,12 +7,11 @@ import { ProductInfoPrice, ProductInfoPriceSale } from './sections/ElNewProducts
 import { toVND } from '../helper';
 
 
-const ItemSearch = ({ images, name, price, price_sale, _id, onClick, ...rest }) => {
+const ItemSearch = ({ images, name, price, price_sale, _id, onClick, percent_sale, ...rest }) => {
   return (
     <Stack
       flexDirection='row'
       marginTop='12px'
-      // paddingX='15px'
       component={Link}
       to={`/product/${_id}`}
       onClick={() => onClick(false)}
@@ -37,8 +36,8 @@ const ItemSearch = ({ images, name, price, price_sale, _id, onClick, ...rest }) 
         }}
         >{name}</Typography>
         <Stack flexDirection='row' gap={1}>
-          <ProductInfoPrice sx={{ fontSize: '13px' }}>{toVND(price)}</ProductInfoPrice>
-          <ProductInfoPriceSale sx={{ fontSize: '11px' }}>{toVND(price_sale)}</ProductInfoPriceSale>
+          <ProductInfoPrice sx={{ fontSize: '13px' }} sale={percent_sale ? 'true' : 'false'}>{toVND(price)}</ProductInfoPrice>
+          {percent_sale && <ProductInfoPriceSale sx={{ fontSize: '11px' }}>{toVND(price_sale)}</ProductInfoPriceSale>}
         </Stack>
       </Box>
     </Stack >

@@ -32,7 +32,7 @@ const User = (props) => {
   }
 
   return (
-    <Master1>
+    <Master1 {...props}>
       <Container maxWidth='lg' sx={{ marginTop: '20px', marginBottom: '20px', minHeight: '60vh' }}>
         <Typography
           component='h1'

@@ -132,10 +132,14 @@ const PageSearchMobile = ({ show, onClose }) => {
 export default PageSearchMobile
 
 const Container = styledMUI('div')(({ theme }) => ({
-  height: 'calc(100vh)',
+  // height: 'calc(100vh)',
+  // width: '100vw',
+  top: 0,
+  bottom: 0,
+  right: 0,
+  left: 0,
   padding: '8px 15px',
   backgroundColor: `${theme.palette.background.paper}`,
-  width: '100vw',
   overflow: 'hidden',
   position: 'fixed',
   zIndex: 2,

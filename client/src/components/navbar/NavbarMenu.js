@@ -17,13 +17,20 @@ import { selectAuth } from '../../store/auth/authSlice'
 import Search from '../Search';
 import PageSearchMobile from '../PageSearchMobile';
 
+const listNavbar = [
+  { path: '/', text: 'Home' },
+  { path: '/perfume', text: 'Perfume' },
+  { path: '/forGirl', text: 'For Girl' },
+  { path: '/forMan', text: 'For Man' },
+  { path: '/contact', text: 'Contact' },
+]
 
-
-const NavbarMenu = () => {
+const NavbarMenu = ({ match }) => {
   const { user } = useSelector(selectAuth)
   const [isShowDropDown, setIsShowDropDown] = useState(false)
   const [showPageSearch, setShowPageSearch] = useState(false)
   const ref = useRef(null)
+  const urlActive = match.path
 
   showPageSearch ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'unset';
 
@@ -60,12 +67,12 @@ const NavbarMenu = () => {
               minHeight='2.5rem'
             >
               <HeadLeft>
-                <HeadItem><LinkContact href='/' >Phone: (+84) 968246516</LinkContact></HeadItem>
+                <HeadItem><LinkContact href='#' >Phone: (+84) 968246516</LinkContact></HeadItem>
                 <Divider orientation="vertical" variant="middle" flexItem />
-                <HeadItem><LinkContact href='/' > <FaTwitter /> </LinkContact></HeadItem>
-                <HeadItem><LinkContact href='/' > <FaFacebookF /> </LinkContact></HeadItem>
-                <HeadItem><LinkContact href='/' > <FaInstagram /> </LinkContact></HeadItem>
-                <HeadItem><LinkContact href='/' > <FaYoutube /> </LinkContact></HeadItem>
+                <HeadItem><LinkContact href='#' > <FaTwitter /> </LinkContact></HeadItem>
+                <HeadItem><LinkContact href='#' > <FaFacebookF /> </LinkContact></HeadItem>
+                <HeadItem><LinkContact href='#' > <FaInstagram /> </LinkContact></HeadItem>
+                <HeadItem><LinkContact href='#' > <FaYoutube /> </LinkContact></HeadItem>
               </HeadLeft>
 
               <HeadRight>
@@ -118,21 +125,12 @@ const NavbarMenu = () => {
             <SidebarShoppingCart />
             <NavbarCollapse>
               <NavbarNav>
-                <NavItem className='active'>
-                  <NavLink as={Link} to='/'>Home</NavLink>
-                </NavItem>
-                <NavItem >
-                  <NavLink as={Link} to='/'>Perfume</NavLink>
-                </NavItem>
-                <NavItem >
-                  <NavLink as={Link} to='/'>Skin Care</NavLink>
-                </NavItem>
-                <NavItem >
-                  <NavLink as={Link} to='/'>For Man</NavLink>
-                </NavItem>
-                <NavItem >
-                  <NavLink as={Link} to='/'>Contact</NavLink>
-                </NavItem>
+                {listNavbar && listNavbar.map(p =>
+                  <NavItem key={p.text} className={urlActive === p.path ? 'active' : ''}>
+                    <NavLink as={Link} to={p.path}>{p.text}</NavLink>
+                  </NavItem>
+                )
+                }
               </NavbarNav>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Search />
@@ -147,7 +145,7 @@ const NavbarMenu = () => {
             </NavbarCollapse>
           </Container>
         </Box>
-        <PageSearchMobile show={showPageSearch} onClose={() => setShowPageSearch(false)} />
+        <PageSearchMobile show={showPageSearch} onClose={() => setShowPageSearch(!showPageSearch)} />
       </AppBar >
     </>
   )

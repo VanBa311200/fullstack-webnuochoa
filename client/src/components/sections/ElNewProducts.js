@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Container, Typography, Paper, Stack, Box, } from '@mui/material'
+import { Container, Typography, Stack, Box, } from '@mui/material'
 import { styled as styledMUI } from '@mui/system'
 import { Link } from 'react-router-dom'
 
@@ -25,7 +25,11 @@ export const SectionHeading = styledMUI(Typography)(({ theme }) => ({
 }))
 
 
-export const ProductItem = styledMUI(Paper)(({ theme }) => ({
+export const ProductItem = styledMUI(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+
   '&:hover': {
     boxShadow: `${theme.shadows[11]}`,
     transition: `all .35s ease`,
@@ -50,6 +54,7 @@ export const ProductImage = styled.div`
   position: relative;
   background-color: #f5f6fa;
   text-align: center;
+  flex-shrink: 0;
 `
 
 export const LinkProduct = styled(Link)`
@@ -64,7 +69,7 @@ export const ProductInfo = styledMUI(Stack)(({ theme }) => ({
   padding: '15px',
   display: 'flex',
   flexDirection: 'column',
-  flex: '1 1 auto',
+  flex: 1,
 
   [theme.breakpoints.down('md')]: {
     padding: '10px',
@@ -98,6 +103,7 @@ export const ProductName = styled(Link)`
   font-size: 17px;
   text-decoration: none;
   user-select: none;
+  margin-bottom: 8px;
   
   word-break: break-word;
   overflow: hidden;
@@ -118,7 +124,7 @@ export const ProductName = styled(Link)`
 `
 
 export const ProductInfoGroup = styledMUI(Box)(({ theme }) => ({
-  marginTop: '8px',
+  marginTop: 'auto',
 }))
 
 
@@ -149,12 +155,12 @@ export const TagSalePercent = styled.span`
 
 `
 
-export const ProductInfoPrice = styledMUI(Typography)(({ theme }) => ({
+export const ProductInfoPrice = styledMUI(Typography)(({ theme, sale }) => ({
   marginBottom: 'unset',
   fontSize: '16px',
   fontWeight: '500',
   userSelect: 'none',
-  color: `${theme.palette.primary.main}`,
+  color: `${sale === 'true' ? theme.palette.primary.main : theme.palette.text.primary}`,
 
   display: 'flex',
   flexWrap: 'wrap',

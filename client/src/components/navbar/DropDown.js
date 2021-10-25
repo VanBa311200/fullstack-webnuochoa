@@ -17,7 +17,7 @@ const DropDown = ({ isShowDropDown }) => {
   const handleLogout = () => {
     dispatch(userLogout())
     history.push('/')
-    toast.success('Logout success...!')
+    toast.success('Logout success...!', { closeOnClick: false })
   }
 
 

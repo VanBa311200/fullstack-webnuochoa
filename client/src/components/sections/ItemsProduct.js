@@ -7,7 +7,7 @@ import RatingStart from '../RatingStart'
 import { apiUrl } from '../../context/contanst'
 import { TagPercentSale } from '../../Pages/DetailProduct'
 
-const ItemsProduct = ({ p, onClick }) => {
+const ItemsProduct = ({ p }) => {
   return (
     <Grid
       item
@@ -25,15 +25,15 @@ const ItemsProduct = ({ p, onClick }) => {
           <ProductBrand>{p.id_brand.name}</ProductBrand>
           <ProductName to={`product/${p._id}`}>{p.name}</ProductName>
           <ProductInfoGroup>
-            <ProductInfoPriceSale>{toVND(p.price)}
-            </ProductInfoPriceSale>
+            {p.percent_sale && <ProductInfoPriceSale>{toVND(p.price)}
+            </ProductInfoPriceSale>}
             <Stack
               flexDirection='row'
               alignItems='center'
               gap='20px'
             >
-              <ProductInfoPrice>{toVND(p.price_sale)}</ProductInfoPrice>
-              <TagPercentSale>{`-${p.percent_sale}%`}</TagPercentSale>
+              <ProductInfoPrice sale={p.percent_sale ? 'true' : 'false'}>{toVND(p.price_sale)}</ProductInfoPrice>
+              {p.percent_sale && <TagPercentSale>{`-${p.percent_sale}%`}</TagPercentSale>}
             </Stack>
             <RatingStart number={p.rating_number} />
           </ProductInfoGroup>

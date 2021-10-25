@@ -61,7 +61,6 @@ router.post('/', upload.array('images', 12), async (req, res) => {
     })
   }
 
-  console.log(typeof images)
   try {
     const product = new Products({
       id_brand: brand,
@@ -87,12 +86,43 @@ router.post('/', upload.array('images', 12), async (req, res) => {
 // @desc get all product 
 // @access public
 router.get('/', async (req, res) => {
+  const { _page, _limit, _searchByBrand } = req.query
   try {
-    const products = await Products.find({}).populate('id_brand', ['name'])
-    if (products)
-      return res.json({ success: true, message: 'Get all products successfully!', products: products })
-    return res.status(404).json({ success: false, message: 'There are not any products' })
-  } catch (error) {
+    if (_page && _limit) {
+      if (_searchByBrand) {
+        let products = await Products.find({ id_brand: _searchByBrand }).populate('id_brand', ['name'])
+        if (products.length) {
+          const startIndex = (_page - 1) * _limit
+          const endIndex = _page * _limit
+          const totalPage = Math.ceil(products.length / _limit)
+          products = products.slice(startIndex, endIndex)
+          const resultPage = {
+            products,
+            totalPage
+          }
+          return res.json({ success: true, message: `Get page: ${_page} successfully`, resultPage })
+        }
+        return res.status(404).json({ success: false, message: `Not found brand` })
+      }
+      let products = await Products.find({}).populate('id_brand', ['name'])
+      const startIndex = (_page - 1) * _limit
+      const endIndex = _page * _limit
+      const totalPage = Math.ceil(products.length / _limit)
+      products = products.slice(startIndex, endIndex)
+      const resultPage = {
+        products,
+        totalPage
+      }
+      return res.json({ success: true, message: `Get page: ${_page} successfully`, resultPage })
+    } else {
+
+      const products = await Products.find({}).populate('id_brand', ['name'])
+      if (products)
+        return res.json({ success: true, message: 'Get all products successfully!', products: products })
+      return res.status(404).json({ success: false, message: 'There are not any products' })
+    }
+  }
+  catch (error) {
     console.log(error)
     return res.status(500).json({ success: false, message: 'Interval Server Error!' })
   }
