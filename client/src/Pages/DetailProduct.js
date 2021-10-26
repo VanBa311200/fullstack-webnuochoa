@@ -54,6 +54,7 @@ const DetailProduct = (props) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplaySpeed: 2500,
   }
 
   const BodyLoading = () => (
