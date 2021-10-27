@@ -29,7 +29,7 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "nampro123p12@gmail.com",
+  "email": "vanba311200@gmail.com",
   "password" : "Tk0968246516"
 }
 
@@ -63,7 +63,7 @@ DELETE  http://localhost:5000/api/brand/612b31d0a70d474b1c8167e5
 # Create product
 POST http://localhost:5000/api/product
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MTJiMDQyOWU5N2IyMDBhZTQxMjBiOWEiLCJpYXQiOjE2MzE4NTgwMDV9.BEn3lD5lr2m7WG-VHTNuvKZwqgkw2mFFCoO8q13fqJo
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InN0YXRlIjpmYWxzZSwiX2lkIjoiNjE3NjZmOWRkZWNlZWMzODQwMjRhZGIzIiwiZW1haWwiOiJ2YW5iYTMxMTIwMEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiRhcmdvbjJpJHY9MTkkbT00MDk2LHQ9MyxwPTEkaTR4U3Q2VGVSTkRHZitrYk9BZUlNdyRQWXBZZ2lDWFB0YzVXOXNRakpuUklXVE5JT1k4QTk2MGVNNG95R1prRzRnIiwiZnVsbG5hbWUiOiJWxINuIEJhIE5ndXnDqsyDbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjVUMDg6NDk6MzMuNDgwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjVUMTc6MDg6MjIuODM2WiIsIl9fdiI6MCwicGhvbmUiOiIwOTY4MjQ2NTE2IiwiYWRkcmVzcyI6eyJhZGRyZXNzRGV0YWlsIjoiNjIxLzExLzNBIFBLNCwgVMO0zIkgNDVBLCDEkC5OZ3V5w6rMg24gQcyJbmggVGh1zIkiLCJjaXR5IjoiVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oIiwiZGlzdHJpY3QiOiJRdeG6rW4gMTIiLCJ3YXJkIjoiUGjGsOG7nW5nIEhp4buHcCBUaMOgbmgifX0sImlhdCI6MTYzNTMxOTMyOX0.kN80nWQlG1Je6LWYDZD8MU1dP94SEY015AihNcUzv6s
 
 {
   "brand" : "612b13fe28a03d2a882f056e",
@@ -97,3 +97,50 @@ GET http://localhost:5000/api/product/612c71e9f2823a481c4da91b
 ###
 #Search Product by name
 GET  http://localhost:5000/api/product/searchProduct/Montblanc
+
+
+###
+#add bill 
+POST http://localhost:5000/api/bill
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InN0YXRlIjpmYWxzZSwiX2lkIjoiNjE3NjZmOWRkZWNlZWMzODQwMjRhZGIzIiwiZW1haWwiOiJ2YW5iYTMxMTIwMEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiRhcmdvbjJpJHY9MTkkbT00MDk2LHQ9MyxwPTEkaTR4U3Q2VGVSTkRHZitrYk9BZUlNdyRQWXBZZ2lDWFB0YzVXOXNRakpuUklXVE5JT1k4QTk2MGVNNG95R1prRzRnIiwiZnVsbG5hbWUiOiJWxINuIEJhIE5ndXnDqsyDbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjVUMDg6NDk6MzMuNDgwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjVUMTc6MDg6MjIuODM2WiIsIl9fdiI6MCwicGhvbmUiOiIwOTY4MjQ2NTE2IiwiYWRkcmVzcyI6eyJhZGRyZXNzRGV0YWlsIjoiNjIxLzExLzNBIFBLNCwgVMO0zIkgNDVBLCDEkC5OZ3V5w6rMg24gQcyJbmggVGh1zIkiLCJjaXR5IjoiVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oIiwiZGlzdHJpY3QiOiJRdeG6rW4gMTIiLCJ3YXJkIjoiUGjGsOG7nW5nIEhp4buHcCBUaMOgbmgifX0sImlhdCI6MTYzNTMyMDIwNX0.XaUygQ64ibZXRx8_6pQRhsvTaqaSmRIf68snHLLpi60
+
+{
+  "listBillDetail" : [
+    {
+    "id_product": "615bbe85a671fe02f4e494dc",
+    "quantity" : 3,
+    "size" : "60ml",
+    "price" : 1215000,
+    "totalPrice": 3645000
+    },
+    {
+    "id_product": "61754d0e770e3142ec798e67",
+    "quantity" : 1,
+    "size" : "100ml",
+    "price" : 1980000,
+    "totalPrice": 1980000
+    },
+    {
+    "id_product": "61754d56770e3142ec798e69",
+    "quantity" : 1,
+    "size" : "60ml",
+    "price" : 2890000,
+    "totalPrice": 2890000
+    },
+    {
+    "id_product": "61754db5770e3142ec798e6b",
+    "quantity" : 1,
+    "size" : "60ml",
+    "price" : 2142000,
+    "totalPrice": 2142000
+    }
+  ]
+}
+
+###
+#get all bill
+GET http://localhost:5000/api/bill
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InN0YXRlIjpmYWxzZSwiX2lkIjoiNjE3NjZmOWRkZWNlZWMzODQwMjRhZGIzIiwiZW1haWwiOiJ2YW5iYTMxMTIwMEBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiRhcmdvbjJpJHY9MTkkbT00MDk2LHQ9MyxwPTEkaTR4U3Q2VGVSTkRHZitrYk9BZUlNdyRQWXBZZ2lDWFB0YzVXOXNRakpuUklXVE5JT1k4QTk2MGVNNG95R1prRzRnIiwiZnVsbG5hbWUiOiJWxINuIEJhIE5ndXnDqsyDbiIsImNyZWF0ZWRBdCI6IjIwMjEtMTAtMjVUMDg6NDk6MzMuNDgwWiIsInVwZGF0ZWRBdCI6IjIwMjEtMTAtMjVUMTc6MDg6MjIuODM2WiIsIl9fdiI6MCwicGhvbmUiOiIwOTY4MjQ2NTE2IiwiYWRkcmVzcyI6eyJhZGRyZXNzRGV0YWlsIjoiNjIxLzExLzNBIFBLNCwgVMO0zIkgNDVBLCDEkC5OZ3V5w6rMg24gQcyJbmggVGh1zIkiLCJjaXR5IjoiVGjDoG5oIHBo4buRIEjhu5MgQ2jDrSBNaW5oIiwiZGlzdHJpY3QiOiJRdeG6rW4gMTIiLCJ3YXJkIjoiUGjGsOG7nW5nIEhp4buHcCBUaMOgbmgifX0sImlhdCI6MTYzNTMyMDIwNX0.XaUygQ64ibZXRx8_6pQRhsvTaqaSmRIf68snHLLpi60
+

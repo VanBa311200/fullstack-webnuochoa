@@ -20,6 +20,10 @@ const BilldetailSchema = new Schema({
     type: String,
     required: true,
   },
+  price: {
+    type: String,
+    required: true
+  },
   totalPrice: {
     type: Number,
     required: true,
