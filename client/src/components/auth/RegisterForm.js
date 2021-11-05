@@ -18,13 +18,13 @@ const RegisterForm = () => {
 
   const schema = yup.object().shape({
     firstName: yup.string()
-      .min(2, 'Tên éo gì có 1 chữ')
-      .max(10, 'Ey, Tên éo gì dài vậy =))')
+      .min(2, 'Tên gì có 1 chữ')
+      .max(10, 'Ey, Tên gì dài vậy =))')
       .required('Điền vô nhanh'),
     lastName: yup.string()
       .required('Điền vô nhanh')
-      .min(2, 'Họ éo gì có 1 chữ')
-      .max(10, 'Ey, Họ éo gì dài vậy =))'),
+      .min(2, 'Họ gì có 1 chữ')
+      .max(10, 'Ey, Họ gì dài vậy =))'),
     email: yup.string()
       .required('Điền vô nhanh')
       .email('Bạn phải nhập đúng email')

@@ -30,6 +30,6 @@ app.use('/api/product', productRouter)
 app.use('/api/banner', bannerRouter)
 app.use('/api/bill', billRouter)
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => console.log(`Server start on PORT: ${PORT}`))

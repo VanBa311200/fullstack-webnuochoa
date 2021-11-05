@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { styled as styledMUI } from '@mui/styles'
-import { Container, Box, Grid, Paper } from '@mui/material'
+import { Container, Box, Grid } from '@mui/material'
 import { FaTwitter, FaFacebookF, FaInstagram, FaYoutube, FaTelegramPlane } from 'react-icons/fa'
 
 const Footer = () => {
@@ -43,20 +43,22 @@ const Footer = () => {
       </FooterTop>
 
       <FooterBottom>
-        <Wrap>
-          <Left>
-            <li><Link to="/">Contact</Link></li>
-            <li><Link to="/">Term of use</Link></li>
-            <li><Link to="/">Privacy</Link></li>
-            <li><Link to="/">Environmental Policy</Link></li>
-          </Left>
-          <Right>
-            <p>
-              Copyright ©{(new Date().getFullYear())} All rights reserved <br />
-              Design by <a href="https://www.facebook.com/nguyen.van.ba00">Nguyễn Văn Ba</a>
-            </p>
-          </Right>
-        </Wrap>
+        <Container>
+          <Wrap>
+            <Left>
+              <li><Link to="/">Contact</Link></li>
+              <li><Link to="/">Term of use</Link></li>
+              <li><Link to="/">Privacy</Link></li>
+              <li><Link to="/">Environmental Policy</Link></li>
+            </Left>
+            <Right>
+              <p>
+                Copyright ©{(new Date().getFullYear())} All rights reserved <br />
+                Design by <a href="https://www.facebook.com/nguyen.van.ba00">Nguyễn Văn Ba</a>
+              </p>
+            </Right>
+          </Wrap>
+        </Container>
       </FooterBottom>
     </footer>
   )
@@ -65,12 +67,12 @@ const Footer = () => {
 export default Footer
 
 
-const FooterTop = styledMUI(Paper)(({ theme }) => ({
+const FooterTop = styledMUI('div')(({ theme }) => ({
   padding: '65px 0 30px 0',
   backgroundColor: '#222736',
 }))
 
-const FooterBottom = styledMUI(Paper)(() => ({
+const FooterBottom = styledMUI('div')(() => ({
   padding: '10px',
   backgroundColor: '#1e2331',
   display: 'flex',
@@ -171,7 +173,7 @@ const GroupForm = styled.div`
   }
 `
 
-const Wrap = styledMUI(Container)(({ theme }) => ({
+const Wrap = styledMUI('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'space-between',

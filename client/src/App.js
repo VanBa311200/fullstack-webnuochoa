@@ -17,6 +17,7 @@ import Perfume from './Pages/Perfume';
 import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import Page404 from './components/404';
+import Payment from './Pages/Payment';
 
 function App() {
   const bounce = cssTransition({
@@ -64,6 +65,7 @@ function App() {
               }
             />
             <ProtectedRoute exact path='/account' component={User} />
+            <ProtectedRoute exact path='/payment' component={Payment} />
             <Route
               exact
               path='/product/:productId'
